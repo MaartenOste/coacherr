@@ -53,6 +53,8 @@ class ApiRouter {
      */
     this.router.get('/clubs', this.clubController.index);
     this.router.get('/clubs/:id', this.clubController.show);
+    this.router.post('/auth/signin/', this.clubController.signInLocal);
+    this.router.post('/auth/signup/', this.clubController.signupLocal);
     /*
      * Formation routes
      */
@@ -68,6 +70,9 @@ class ApiRouter {
      */
     this.router.get('/members', this.memberController.index);
     this.router.get('/members/:id', this.memberController.show);
+    this.router.get('/membersfromclub/:clubId&:age', this.memberController.showMembersFromClub);
+    this.router.post('/auth/signin/', this.memberController.signInLocal);
+    this.router.post('/auth/signup/', this.memberController.signupLocal);
     /*
      * Member Type routes
      */
@@ -78,6 +83,12 @@ class ApiRouter {
      */
     this.router.get('/statistics', this.statisticController.index);
     this.router.get('/statistics/:id', this.statisticController.show);
+    /*
+    this.router.get('/users', this.userController.index);
+    this.router.get('/users/:id', this.userController.show);
+    this.router.delete('/users/:id', this.userController.destroy);
+    this.router.post('/auth/signin/', this.userController.signInLocal);
+    this.router.post('/auth/signup/', this.userController.signupLocal);*/
 
     /*
      * Post routes
@@ -88,15 +99,7 @@ class ApiRouter {
     this.router.post('/posts', this.postController.store);
     this.router.get('/posts/:id/edit', this.postController.edit);
     this.router.put('/posts/:id', this.postController.update);
-    this.router.delete('/posts/:id', this.postController.destroy);
-    /*
-     * Users routes
-     *//*
-    this.router.get('/users', this.userController.index);
-    this.router.get('/users/:id', this.userController.show);
-    this.router.delete('/users/:id', this.userController.destroy);
-    this.router.post('/auth/signin/', this.userController.signInLocal);
-    this.router.post('/auth/signup/', this.userController.signupLocal);*/
+    this.router.delete('/posts/:id', this.postController.destroy);*/
   }
 }
 

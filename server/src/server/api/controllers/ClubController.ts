@@ -5,7 +5,6 @@ import { AuthService, IConfig } from '../../services';
 import { NotFoundError } from '../../utilities';
 
 class ClubController {
-
   private authService: AuthService;
   private config: IConfig;
 
@@ -14,12 +13,11 @@ class ClubController {
     this.authService = authService;
   }
 
-
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let clubs = await Club.find()
-          .sort({ _createdAt: -1 })
-          .exec();
+      let clubs = await Club.find()
+        .sort({ _createdAt: -1 })
+        .exec();
 
       return res.status(200).json(clubs);
     } catch (err) {
@@ -31,8 +29,7 @@ class ClubController {
     try {
       const { id } = req.params;
 
-      const club = await Club.findById(id)
-        .exec();
+      const club = await Club.findById(id).exec();
       return res.status(200).json(club);
     } catch (err) {
       next(err);
@@ -44,7 +41,7 @@ class ClubController {
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const { email, name, clubnumber,phoneNumber, password } = req.body;
+    const { email, name, clubnumber, phoneNumber, password } = req.body;
 
     let founMember = await Club.findOne({ email: email });
     if (founMember) {
@@ -65,7 +62,7 @@ class ClubController {
       email: club.email,
       name: club.name,
       clubnumber: club.clubNumber,
-      phoneNumber: club.phoneNumber, 
+      phoneNumber: club.phoneNumber,
       token: `${token}`,
     });
   };

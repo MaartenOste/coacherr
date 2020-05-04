@@ -2,14 +2,12 @@ import { default as mongoose, Schema, Document, PaginateModel } from 'mongoose';
 import { default as mongoosePaginate } from 'mongoose-paginate';
 import { default as slug } from 'slug';
 import { IMember } from './member.model';
-import { IStatistic } from './statistic.model';
 
 interface IFormation extends Document {
   structure: string;
   ageCategory: string;
   _coachId: IMember['_id'];
   _playersIds: Array<IMember['_id']>;
-  _statisticId: IStatistic['id'];
 
   _createdAt: number;
   _modifiedAt: number;
@@ -25,13 +23,14 @@ const formationSchema: Schema = new Schema(
     structure: { type: String, required: true, max: 16 },
     ageCategory: {
       type: String,
-	  required: true,
-	  max:16,
+      required: true,
+      max: 16,
     },
-    _coachId: {type: Schema.Types.ObjectId, ref: 'Member', required: true },
-    _playersIds: [{ type: Schema.Types.ObjectId, ref: 'Member', required: true }],
-    _statisticId:{ type: Schema.Types.ObjectId, ref: 'Statistic', required: false },
-    
+    _coachId: { type: Schema.Types.ObjectId, ref: 'Member', required: true },
+    _playersIds: [
+      { type: Schema.Types.ObjectId, ref: 'Member', required: true },
+    ],
+
     _createdAt: { type: Number, required: true, default: Date.now() },
     _modifiedAt: { type: Number, required: false, default: null },
     _deletedAt: { type: Number, required: false, default: null },
@@ -54,10 +53,10 @@ formationSchema.virtual('coach', {
 });
 
 formationSchema.virtual('players', {
-	ref: 'Member',
-	localField: '_playersIds',
-	foreignField: '_id',
-	justOne: false,
+  ref: 'Member',
+  localField: '_playersIds',
+  foreignField: '_id',
+  justOne: false,
 });
 
 formationSchema.virtual('statistic', {
@@ -67,7 +66,10 @@ formationSchema.virtual('statistic', {
   justOne: true,
 });
 
-  formationSchema.plugin(mongoosePaginate);
-const Formation = mongoose.model<IFormation, IFormationModel>('Formation', formationSchema);
+formationSchema.plugin(mongoosePaginate);
+const Formation = mongoose.model<IFormation, IFormationModel>(
+  'Formation',
+  formationSchema,
+);
 
 export { IFormation, Formation, formationSchema };

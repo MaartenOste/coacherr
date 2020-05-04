@@ -24,7 +24,6 @@ interface IMember extends Document {
   _modifiedAt: number;
   _deletedAt: number;
 
-
   slugify(): void;
 }
 
@@ -40,7 +39,7 @@ const memberSchema: Schema = new Schema(
     lastname: {
       type: String,
       required: true,
-      max:64,
+      max: 64,
     },
     email: {
       type: String,
@@ -49,13 +48,13 @@ const memberSchema: Schema = new Schema(
     },
     ageCategory: {
       type: String,
-	  required: true,
-	  max:16,
+      required: true,
+      max: 16,
     },
     phoneNumber: {
       type: String,
-	  required: false,
-	  max:16
+      required: false,
+      max: 16,
     },
     extraInfo: {
       position: String,
@@ -65,7 +64,7 @@ const memberSchema: Schema = new Schema(
     _clubId: {
       type: Schema.Types.ObjectId,
       ref: 'Club',
-      required: false
+      required: false,
     },
     _memberTypeId: {
       type: Schema.Types.ObjectId,
@@ -75,7 +74,6 @@ const memberSchema: Schema = new Schema(
     _createdAt: { type: Number, required: true, default: Date.now() },
     _modifiedAt: { type: Number, required: false, default: null },
     _deletedAt: { type: Number, required: false, default: null },
-
   },
   {
     toJSON: { virtuals: true },

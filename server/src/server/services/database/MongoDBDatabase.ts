@@ -15,7 +15,7 @@ import {
   IMemberType,
   MemberType,
   IStatistic,
-  Statistic
+  Statistic,
 } from '../../models/mongoose';
 
 class MongoDBDatabase {
@@ -83,10 +83,8 @@ class MongoDBDatabase {
     name: string,
     clubNumber: number,
     password: string,
-    logoURL: string,
     email: string,
     phoneNumber: string,
-    clubColors: string
   ) => {
     const clubDetail = {
       email,
@@ -95,9 +93,7 @@ class MongoDBDatabase {
       },
       name,
       clubNumber,
-      logoURL,
       phoneNumber,
-      clubColors,
     };
     const club: IClub = new Club(clubDetail);
 
@@ -109,47 +105,36 @@ class MongoDBDatabase {
     } catch (err) {
       this.logger.error(`An error occurred when creating a user ${err}`, err);
     }
-  }
+  };
 
   private createClubs = async () => {
     const promises = [];
-    let colors = ['#BBF31F', '#2D88FF'];
-    const colorsstring = JSON.stringify(colors);
 
     promises.push(
-    this.clubCreate(
-      'FC NMD',
-      99999,
-      'yeetskeet',
-      'https://www.arteveldehogeschool.be/sites/all/themes/epsenkaas_theme/logo.svg',
-      'maarten.oste@gmail.com',
-      '+324xx/xx.xx.xx',
-      colorsstring
-      )
-      );
+      this.clubCreate(
+        'FC NMD',
+        99999,
+        'yeetskeet',
+        'maarten.oste@gmail.com',
+        '+324xx/xx.xx.xx',
+      ),
+    );
 
     /*for (let i = 0; i < 30; i++) {
-      let colors = [faker.internet.color(faker.random.number(255),faker.random.number(255),faker.random.number(255))
-        , faker.internet.color(faker.random.number(255),faker.random.number(255),faker.random.number(255))];
-      const colorsstring = JSON.stringify(colors);
       promises.push(
         this.clubCreate(
           `FC ${faker.address.city()}`,
           faker.random.number(99999),
           'yeetskeet',
-          faker.image.sports(),
           faker.internet.email(),
           faker.phone.phoneNumber(),
-          colorsstring,
         ),
       );
     }*/
     return await Promise.all(promises);
   };
 
-  private memberTypeCreate = async (
-    name: string,
-  ) => {
+  private memberTypeCreate = async (name: string) => {
     const memberTypeDetail = {
       name,
     };
@@ -159,23 +144,22 @@ class MongoDBDatabase {
       const createdMemberType = await memberType.save();
       this.memberTypes.push(createdMemberType);
 
-      this.logger.info(`MemberType created with id: ${createdMemberType._id}`, {});
+      this.logger.info(
+        `MemberType created with id: ${createdMemberType._id}`,
+        {},
+      );
     } catch (err) {
       this.logger.error(`An error occurred when creating a user ${err}`, err);
     }
-  }
+  };
 
   private createMemberTypes = async () => {
     const promises = [];
 
-      promises.push(
-        this.memberTypeCreate(
-          'Player',
-        ),
-        this.memberTypeCreate(
-          'Coach',
-        )
-      );
+    promises.push(
+      this.memberTypeCreate('Player'),
+      this.memberTypeCreate('Coach'),
+    );
     return await Promise.all(promises);
   };
 
@@ -188,7 +172,6 @@ class MongoDBDatabase {
     extraInfo: Object,
     _clubId: IClub['_id'],
     _memberTypeId: Array<IMemberType['id']>,
-
   ) => {
     const memberDetail = {
       firstname,
@@ -210,24 +193,38 @@ class MongoDBDatabase {
     } catch (err) {
       this.logger.error(`An error occurred when creating a user ${err}`, err);
     }
-  }
+  };
 
   private createMembers = async () => {
     const promises = [];
-    const agecategories= ['U7','U9', 'U11', 'U13', 'U15', 'U17','U19', 'U21', 'Second Team', 'First Team'];
-    const positions = ['doelman', 'verdediger', 'middevelder', 'aanvaller'];
+    const agecategories = [
+      'U7',
+      'U9',
+      'U11',
+      'U13',
+      'U15',
+      'U17',
+      'U19',
+      'U21',
+      'Second-Team',
+      'First-Team',
+    ];
+    const positions = ['goalkeeper', 'defender', 'midfielder', 'attacker'];
     const feet = ['left', 'right'];
     for (let j = 0; j < this.clubs.length; j++) {
       for (let k = 0; k < agecategories.length; k++) {
         for (let i = 0; i < 15; i++) {
-          const extraI = {position: positions[faker.random.number(positions.length-1)], foot : feet[faker.random.number(feet.length-1)]};
+          const extraI = {
+            position: positions[faker.random.number(positions.length - 1)],
+            foot: feet[faker.random.number(feet.length - 1)],
+          };
           const fn = faker.name.firstName();
           const ln = faker.name.lastName();
           promises.push(
             this.memberCreate(
               fn,
               ln,
-              faker.internet.email(fn,ln),
+              faker.internet.email(fn, ln),
               agecategories[k],
               faker.phone.phoneNumber(),
               extraI,
@@ -242,7 +239,7 @@ class MongoDBDatabase {
           this.memberCreate(
             fn,
             ln,
-            faker.internet.email(fn,ln),
+            faker.internet.email(fn, ln),
             agecategories[k],
             faker.phone.phoneNumber(),
             {},
@@ -252,26 +249,40 @@ class MongoDBDatabase {
         );
       }
     }
-    
-    return await Promise.all(promises);
-};
 
-private createMembersWithoutClub = async () => {
-  const promises = [];
-  const agecategories= ['U7','U9', 'U11', 'U13', 'U15', 'U17','U19', 'U21', 'Second Team', 'First Team'];
-  const positions = ['doelman', 'verdediger', 'middevelder', 'aanvaller'];
-  const feet = ['left', 'right'];
+    return await Promise.all(promises);
+  };
+
+  private createMembersWithoutClub = async () => {
+    const promises = [];
+    const agecategories = [
+      'U7',
+      'U9',
+      'U11',
+      'U13',
+      'U15',
+      'U17',
+      'U19',
+      'U21',
+      'Second Team',
+      'First Team',
+    ];
+    const positions = ['doelman', 'verdediger', 'middevelder', 'aanvaller'];
+    const feet = ['left', 'right'];
 
     for (let k = 0; k < agecategories.length; k++) {
       for (let i = 0; i < faker.random.number(3); i++) {
-        const extraI = {position: positions[faker.random.number(positions.length-1)], foot : feet[faker.random.number(feet.length-1)]};
+        const extraI = {
+          position: positions[faker.random.number(positions.length - 1)],
+          foot: feet[faker.random.number(feet.length - 1)],
+        };
         const fn = faker.name.firstName();
         const ln = faker.name.lastName();
         promises.push(
           this.memberCreate(
             fn,
             ln,
-            faker.internet.email(fn,ln),
+            faker.internet.email(fn, ln),
             agecategories[k],
             faker.phone.phoneNumber(),
             extraI,
@@ -286,7 +297,7 @@ private createMembersWithoutClub = async () => {
         this.memberCreate(
           fn,
           ln,
-          faker.internet.email(fn,ln),
+          faker.internet.email(fn, ln),
           agecategories[k],
           faker.phone.phoneNumber(),
           {},
@@ -294,160 +305,198 @@ private createMembersWithoutClub = async () => {
           [this.memberTypes[1]._id],
         ),
       );
-  }
-  return await Promise.all(promises);
-};
-
-private joinRequestCreate = async (
-  _clubId: IClub['_id'],
-  _memberId: IMember['_id']
-
-) => {
-  const joinRequestDetail = {
-    _clubId,
-    _memberId,
+    }
+    return await Promise.all(promises);
   };
 
-  const joinRequest: IJoinRequest = new JoinRequest(joinRequestDetail);
+  private joinRequestCreate = async (
+    _clubId: IClub['_id'],
+    _memberId: IMember['_id'],
+  ) => {
+    const joinRequestDetail = {
+      _clubId,
+      _memberId,
+    };
 
-  try {
-    const createdJoinRequest = await joinRequest.save();
-    this.joinRequests.push(createdJoinRequest);
+    const joinRequest: IJoinRequest = new JoinRequest(joinRequestDetail);
 
-    this.logger.info(`Join request created with id: ${createdJoinRequest._id}`, {});
-  } catch (err) {
-    this.logger.error(`An error occurred when creating a user ${err}`, err);
-  }
-}
+    try {
+      const createdJoinRequest = await joinRequest.save();
+      this.joinRequests.push(createdJoinRequest);
 
-private createJoinRequests = async () => {
-  const promises = [];
-
-  for (let i = 0; i < this.members.length; i++) {
-    if (this.members[i]._clubId == null) {
-      promises.push(
-        this.joinRequestCreate(
-          this.clubs[faker.random.number(this.clubs.length-1)]['_id'],
-          this.members[i]['_id'],
-        ),
-      )
+      this.logger.info(
+        `Join request created with id: ${createdJoinRequest._id}`,
+        {},
+      );
+    } catch (err) {
+      this.logger.error(`An error occurred when creating a user ${err}`, err);
     }
-  }
-  
-  return await Promise.all(promises);
-};
-
-private formationCreate = async (
-  structure: String,
-  ageCategory: String,
-  _coachId: IMember['_id'],
-  _playersIds: Array<IMember>,
-  _statisticId: IStatistic['_id'],
-
-) => {
-  const formationDetail = {
-    structure,
-    ageCategory,
-    _coachId,
-    _playersIds,
-    _statisticId,
   };
-  const formation: IFormation = new Formation(formationDetail);
 
-  try {
-    const createdFormation = await formation.save();
-    this.formations.push(createdFormation);
+  private createJoinRequests = async () => {
+    const promises = [];
 
-    this.logger.info(`Formation created with id: ${createdFormation._id}`, {});
-  } catch (err) {
-    this.logger.error(`An error occurred when creating a user ${err}`, err);
-  }
-}
-
-private getCoachIdFromClubAndAgeCategory = (clubId: IClub['_id'], ageCategory: String) => {
-  for (let i = 0; i < this.members.length; i++) {
-    if (this.members[i]['_clubId'] == clubId && this.members[i]['ageCategory'] == ageCategory && this.members[i]['_memberTypeId'].toString() == this.memberTypes[1]['_id'].toString()) {
-      return this.members[0]['_id'];
-    }
-  }
-}
-
-private getPlayerIdsFromClubAndAgeCategory = (clubId: String, ageCategory: String) => {
-  let players = [];
-  for (let i = 0; i < this.members.length; i++) {
-    if (this.members[i]['_clubId'] == clubId && this.members[i]['ageCategory'] == ageCategory && this.members[i]['_memberTypeId'].toString() == this.memberTypes[0]['_id'].toString()) {
-      players.push(this.members[i]['_id']);
-    }
-  }
-  return players;
-}
-
-private createFormations = async () => {
-  const promises = [];
-  const structures =['4-3-3', '4-5-1', '4-4-2', '3-4-4', '3-5-2', '5-3-2', '5-2-3'];
-  const agecategories= ['U7','U9', 'U11', 'U13', 'U15', 'U17','U19', 'U21', 'Second Team', 'First Team'];
-  for (let j = 0; j < this.clubs.length; j++) {
-    for (let k = 0; k < agecategories.length; k++) {
-      for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < this.members.length; i++) {
+      if (this.members[i]._clubId == null) {
         promises.push(
-          this.formationCreate(
-            structures[faker.random.number(structures.length-1)],
-            agecategories[k],
-            this.getCoachIdFromClubAndAgeCategory(this.clubs[j]['_id'].toString(), agecategories[k]),
-            this.getPlayerIdsFromClubAndAgeCategory(this.clubs[j]['_id'].toString(), agecategories[k]),
-            null,
+          this.joinRequestCreate(
+            this.clubs[faker.random.number(this.clubs.length - 1)]['_id'],
+            this.members[i]['_id'],
           ),
         );
       }
     }
-  }
-  
-  return await Promise.all(promises);
-};
 
-
-private statisticCreate = async (
-  score: string,
-  _formationId : IFormation['_id'],
-  ) => {
-  const statisticDetail = {
-    score,
-    _formationId,
-  };
-  const statistic: IStatistic = new Statistic(statisticDetail);
-
-  try {
-    const createdStatistic = await statistic.save();
-    this.statics.push(createdStatistic);
-
-    this.logger.info(`Statistic created with id: ${createdStatistic._id}`, {});
-  } catch (err) {
-    this.logger.error(`An error occurred when creating a user ${err}`, err);
-  }
-}
-
-private createStatistics = async () => {
-  const promises = [];
-
-  for (let i = 0; i < this.formations.length; i++) {
-    const score = `${faker.random.number(5)}-${faker.random.number(5)}`;
-    
-    promises.push(
-      this.statisticCreate(
-        score,
-        this.formations[i]['_id'],
-      )
-    )
-  }
-  
     return await Promise.all(promises);
   };
 
+  private formationCreate = async (
+    structure: String,
+    ageCategory: String,
+    _coachId: IMember['_id'],
+    _playersIds: Array<IMember>,
+  ) => {
+    const formationDetail = {
+      structure,
+      ageCategory,
+      _coachId,
+      _playersIds,
+    };
+    const formation: IFormation = new Formation(formationDetail);
+
+    try {
+      const createdFormation = await formation.save();
+      this.formations.push(createdFormation);
+
+      this.logger.info(
+        `Formation created with id: ${createdFormation._id}`,
+        {},
+      );
+    } catch (err) {
+      this.logger.error(`An error occurred when creating a user ${err}`, err);
+    }
+  };
+
+  private getCoachIdFromClubAndAgeCategory = (
+    clubId: IClub['_id'],
+    ageCategory: String,
+  ) => {
+    for (let i = 0; i < this.members.length; i++) {
+      if (
+        this.members[i]['_clubId'] == clubId &&
+        this.members[i]['ageCategory'] == ageCategory &&
+        this.members[i]['_memberTypeId'].toString() ==
+          this.memberTypes[1]['_id'].toString()
+      ) {
+        return this.members[0]['_id'];
+      }
+    }
+  };
+
+  private getPlayerIdsFromClubAndAgeCategory = (
+    clubId: String,
+    ageCategory: String,
+  ) => {
+    let players = [];
+    for (let i = 0; i < this.members.length; i++) {
+      if (
+        this.members[i]['_clubId'] == clubId &&
+        this.members[i]['ageCategory'] == ageCategory &&
+        this.members[i]['_memberTypeId'].toString() ==
+          this.memberTypes[0]['_id'].toString()
+      ) {
+        players.push(this.members[i]['_id']);
+      }
+    }
+    return players;
+  };
+
+  private createFormations = async () => {
+    const promises = [];
+    const structures = [
+      '4-3-3',
+      '4-5-1',
+      '4-4-2',
+      '3-4-4',
+      '3-5-2',
+      '5-3-2',
+      '5-2-3',
+    ];
+    const agecategories = [
+      'U7',
+      'U9',
+      'U11',
+      'U13',
+      'U15',
+      'U17',
+      'U19',
+      'U21',
+      'Second Team',
+      'First Team',
+    ];
+    for (let j = 0; j < this.clubs.length; j++) {
+      for (let k = 0; k < agecategories.length; k++) {
+        for (let i = 0; i < 3; i++) {
+          promises.push(
+            this.formationCreate(
+              structures[faker.random.number(structures.length - 1)],
+              agecategories[k],
+              this.getCoachIdFromClubAndAgeCategory(
+                this.clubs[j]['_id'].toString(),
+                agecategories[k],
+              ),
+              this.getPlayerIdsFromClubAndAgeCategory(
+                this.clubs[j]['_id'].toString(),
+                agecategories[k],
+              ),
+            ),
+          );
+        }
+      }
+    }
+
+    return await Promise.all(promises);
+  };
+
+  private statisticCreate = async (
+    score: string,
+    _formationId: IFormation['_id'],
+  ) => {
+    const statisticDetail = {
+      score,
+      _formationId,
+    };
+    const statistic: IStatistic = new Statistic(statisticDetail);
+
+    try {
+      const createdStatistic = await statistic.save();
+      this.statics.push(createdStatistic);
+
+      this.logger.info(
+        `Statistic created with id: ${createdStatistic._id}`,
+        {},
+      );
+    } catch (err) {
+      this.logger.error(`An error occurred when creating a user ${err}`, err);
+    }
+  };
+
+  private createStatistics = async () => {
+    const promises = [];
+
+    for (let i = 0; i < this.formations.length; i++) {
+      const score = `${faker.random.number(5)}-${faker.random.number(5)}`;
+
+      promises.push(this.statisticCreate(score, this.formations[i]['_id']));
+    }
+
+    return await Promise.all(promises);
+  };
 
   public seed = async () => {
     this.clubs = await Club.estimatedDocumentCount()
       .exec()
-      .then(async count =>{
+      .then(async count => {
         if (count === 0) {
           await this.createClubs();
         }
@@ -456,7 +505,7 @@ private createStatistics = async () => {
 
     this.memberTypes = await MemberType.estimatedDocumentCount()
       .exec()
-      .then(async count =>{
+      .then(async count => {
         if (count === 0) {
           await this.createMemberTypes();
         }
@@ -465,7 +514,7 @@ private createStatistics = async () => {
 
     this.members = await Member.estimatedDocumentCount()
       .exec()
-      .then(async count =>{
+      .then(async count => {
         if (count === 0) {
           await this.createMembers();
           await this.createMembersWithoutClub();
@@ -475,31 +524,30 @@ private createStatistics = async () => {
 
     this.joinRequests = await JoinRequest.estimatedDocumentCount()
       .exec()
-      .then(async count =>{
+      .then(async count => {
         if (count === 0) {
           await this.createJoinRequests();
         }
         return JoinRequest.find().exec();
       });
 
-      this.formations = await Formation.estimatedDocumentCount()
+    this.formations = await Formation.estimatedDocumentCount()
       .exec()
-      .then(async count =>{
+      .then(async count => {
         if (count === 0) {
           await this.createFormations();
         }
         return Formation.find().exec();
       });
 
-      this.statics = await Statistic.estimatedDocumentCount()
+    this.statics = await Statistic.estimatedDocumentCount()
       .exec()
-      .then(async count =>{
+      .then(async count => {
         if (count === 0) {
           await this.createStatistics();
         }
         return Statistic.find().exec();
       });
-
   };
 }
 

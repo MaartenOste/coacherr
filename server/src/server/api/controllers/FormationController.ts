@@ -4,9 +4,9 @@ import { IFormation, Formation } from '../../models/mongoose';
 class FormationController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let formations = await Formation.find()
-          .sort({ _createdAt: -1 })
-          .exec();
+      let formations = await Formation.find()
+        .sort({ _createdAt: -1 })
+        .exec();
 
       return res.status(200).json(formations);
     } catch (err) {
@@ -18,8 +18,7 @@ class FormationController {
     try {
       const { id } = req.params;
 
-      const formation = await Formation.findById(id)
-        .exec();
+      const formation = await Formation.findById(id).exec();
       return res.status(200).json(formation);
     } catch (err) {
       next(err);

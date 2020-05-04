@@ -15,9 +15,9 @@ class MemberController {
 
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let members = await Member.find()
-          .sort({ _createdAt: -1 })
-          .exec();
+      let members = await Member.find()
+        .sort({ _createdAt: -1 })
+        .exec();
 
       return res.status(200).json(members);
     } catch (err) {
@@ -29,28 +29,46 @@ class MemberController {
     try {
       const { id } = req.params;
 
-      const member = await Member.findById(id)
-        .exec();
+      const member = await Member.findById(id).exec();
       return res.status(200).json(member);
     } catch (err) {
       next(err);
     }
   };
 
-  destroy = async (req: Request, res: Response, next: NextFunction) => {}
+  showMembersFromClub = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { clubId, age } = req.params;
+      const players = await Member.find().where('_clubId', clubId).where('ageCategory', age);
+      return res.status(200).json(players);
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  edit = async (req: Request, res: Response, next: NextFunction) => {}
+  destroy = async (req: Request, res: Response, next: NextFunction) => {};
 
-  store = async (req: Request, res: Response, next: NextFunction) => {}
+  edit = async (req: Request, res: Response, next: NextFunction) => {};
 
-  update = async (req: Request, res: Response, next: NextFunction) => {}
+  store = async (req: Request, res: Response, next: NextFunction) => {};
+
+  update = async (req: Request, res: Response, next: NextFunction) => {};
 
   signupLocal = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const { email, firstname, lastname,ageCategory,phoneNumber,extraInfo, _memberTypeId, password } = req.body;
+    const {
+      email,
+      firstname,
+      lastname,
+      ageCategory,
+      phoneNumber,
+      extraInfo,
+      _memberTypeId,
+      password,
+    } = req.body;
 
     let founMember = await Member.findOne({ email: email });
     if (founMember) {

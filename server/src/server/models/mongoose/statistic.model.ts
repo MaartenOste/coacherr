@@ -1,6 +1,6 @@
 import { default as mongoose, Schema, Document, PaginateModel } from 'mongoose';
 import { default as mongoosePaginate } from 'mongoose-paginate';
-import {IFormation} from './formation.model';
+import { IFormation } from './formation.model';
 
 interface IStatistic extends Document {
   score: string;
@@ -28,7 +28,7 @@ const statisticSchema: Schema = new Schema(
     yellow: {
       type: Object,
       required: false,
-      },
+    },
     red: {
       type: Object,
       required: false,
@@ -60,6 +60,9 @@ statisticSchema.virtual('formation', {
 });
 
 statisticSchema.plugin(mongoosePaginate);
-const Statistic = mongoose.model<IStatistic, IStatisticModel>('Statistic', statisticSchema);
+const Statistic = mongoose.model<IStatistic, IStatisticModel>(
+  'Statistic',
+  statisticSchema,
+);
 
 export { IStatistic, Statistic, statisticSchema };

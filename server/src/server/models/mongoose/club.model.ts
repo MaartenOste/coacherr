@@ -14,10 +14,8 @@ interface IClub extends Document {
   slug: string;
   clubNumber: number;
   localProvider?: ILocalProvider;
-  logoURL: string;
   email: string;
   phoneNumber: string;
-  clubColors: string;
 
   _membersIds: Array<IMember['_id']>;
 
@@ -43,7 +41,7 @@ const clubSchema: Schema = new Schema(
       type: String,
       required: true,
       lowercase: true,
-	  },
+    },
     clubNumber: {
       type: Number,
       required: true,
@@ -64,24 +62,16 @@ const clubSchema: Schema = new Schema(
       type: String,
       required: true,
       max: 128,
-      },
+    },
     phoneNumber: {
       type: String,
       required: true,
       max: 16,
-      },
-    clubColors: {
-      type: String,
-      required:false,
     },
-    _postIds: [{ type: Schema.Types.ObjectId, ref: 'Member', required: false }],
-    _membersIds: [{type: Schema.Types.ObjectId, ref: 'Member', required: false}],
-    _joinRequestIds: [{ type: Schema.Types.ObjectId, ref: 'JoinRequest', required: false }],
-
     _createdAt: { type: Number, required: true, default: Date.now() },
     _modifiedAt: { type: Number, required: false, default: null },
     _deletedAt: { type: Number, required: false, default: null },
-    },
+  },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
@@ -132,11 +122,11 @@ clubSchema.virtual('members', {
 });
 
 clubSchema.virtual('joinRequests', {
-	ref: 'JoinRequest',
-	localField: '_joinRequestsIds',
-	foreignField: '_id',
-	justOne: false,
-  });
+  ref: 'JoinRequest',
+  localField: '_joinRequestsIds',
+  foreignField: '_id',
+  justOne: false,
+});
 
 clubSchema.plugin(mongoosePaginate);
 const Club = mongoose.model<IClub, IClubModel>('Club', clubSchema);

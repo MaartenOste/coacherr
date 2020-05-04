@@ -6,7 +6,7 @@ import { IClub } from './club.model';
 interface IJoinRequest extends Document {
   _clubId: IClub['_id'];
   _memberId: IMember['_id'];
-  
+
   _createdAt: number;
   _modifiedAt: number;
   _deletedAt: number;
@@ -18,12 +18,12 @@ interface IJoinRequestModel extends PaginateModel<IJoinRequest> {}
 
 const joinRequestSchema: Schema = new Schema(
   {
-  _clubId: {type: Schema.Types.ObjectId, ref: 'Club', required: true },
-  _memberId: { type: Schema.Types.ObjectId, ref: 'Member', required: true },
+    _clubId: { type: Schema.Types.ObjectId, ref: 'Club', required: true },
+    _memberId: { type: Schema.Types.ObjectId, ref: 'Member', required: true },
 
-  _createdAt: { type: Number, required: true, default: Date.now() },
-  _modifiedAt: { type: Number, required: false, default: null },
-  _deletedAt: { type: Number, required: false, default: null },
+    _createdAt: { type: Number, required: true, default: Date.now() },
+    _modifiedAt: { type: Number, required: false, default: null },
+    _deletedAt: { type: Number, required: false, default: null },
   },
   {
     toJSON: { virtuals: true },
@@ -48,6 +48,9 @@ joinRequestSchema.virtual('club', {
 });
 
 joinRequestSchema.plugin(mongoosePaginate);
-const JoinRequest = mongoose.model<IJoinRequest, IJoinRequestModel>('JoinRequest', joinRequestSchema);
+const JoinRequest = mongoose.model<IJoinRequest, IJoinRequestModel>(
+  'JoinRequest',
+  joinRequestSchema,
+);
 
 export { IJoinRequest, JoinRequest, joinRequestSchema };
