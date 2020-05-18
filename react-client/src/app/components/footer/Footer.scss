@@ -1,0 +1,10 @@
+@import '../../_sass/abstracts/index';
+@import '../../_sass/abstracts/variables';
+
+footer {
+    background-color: $color-green-light;
+    padding-bottom: 5px;
+    height: 8vh;
+    width: 100%;
+    border-radius: 7px 7px 0 0;
+}

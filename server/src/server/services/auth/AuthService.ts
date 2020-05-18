@@ -5,7 +5,7 @@ import { default as passportJwt } from 'passport-jwt';
 import { default as jwt } from 'jsonwebtoken';
 
 import { Environment, IConfig } from '../config';
-import { IUser, User } from '../../models/mongoose';
+import { IMember, Member, IClub, Club } from '../../models/mongoose';
 import { Role } from './auth.types';
 import { UnauthorizedError, ForbiddenError } from '../../utilities';
 
@@ -39,19 +39,18 @@ class AuthService {
         },
         async (email: string, password: string, done) => {
           try {
-            const user = await User.findOne({
+            const member = await Member.findOne({
               email: email,
             });
 
-            if (!user) {
-              return done(null, false, { message: 'No user by that email' });
+            if (!member) {
+              return done(null, false, { message: 'No member by that email' });
             }
-
-            return user.comparePassword(password, (isMatch: boolean) => {
+            return member.comparePassword(password , (isMatch: boolean) => {
               if (!isMatch) {
                 return done(null, false);
               }
-              return done(null, user);
+              return done(null, member);
             });
           } catch (error) {
             return done(error, false);
@@ -72,12 +71,12 @@ class AuthService {
           try {
             const { id } = jwtPayload;
 
-            const user = await User.findById(id);
-            if (!user) {
+            const member = await Member.findById(id);
+            if (!member) {
               return done(null, false);
             }
 
-            return done(null, user);
+            return done(null, member);
           } catch (error) {
             return done(error, false);
           }
@@ -86,15 +85,15 @@ class AuthService {
     );
   };
 
-  public createToken(user: IUser): string {
+  public createToken(member: IMember): string {
     const payload = {
-      id: user._id,
+      id: member._id,
     };
     return jwt.sign(payload, this.config.auth.jwt.secret, {
       expiresIn: 60 * 120,
     });
   }
-
+/*
   public checkIsInRole = (...roles: Array<string>) => (
     req: Request,
     res: Response,
@@ -104,13 +103,13 @@ class AuthService {
       next(new ForbiddenError());
     }
 
-    const hasRole = roles.find(role => (req.user as IUser).role === role);
+    const hasRole = roles.find(role => (req.member as IMember).role === role);
     if (!hasRole) {
       next(new UnauthorizedError());
     }
 
     return next();
-  };
+  };*/
 }
 
 export default AuthService;

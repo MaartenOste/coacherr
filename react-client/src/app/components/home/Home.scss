@@ -1,0 +1,36 @@
+@import '../../_sass/abstracts/variables';
+
+.useroption {
+	margin: 3vh auto;
+	height: 15vh;
+
+	.optiontitle{
+		color: $color-beige;
+		text-align: center;
+		vertical-align: middle;
+		line-height: 13vh; 
+		font-size: 7vw;
+	}
+}
+
+.title{
+	margin-bottom: 7vh;
+	font-weight: bolder;
+
+	.welcome{
+		font-size: 12vw;
+	}
+	.logo{
+		text-align: right;
+		color: $color-green-light;
+		font-size: 12vw;
+		line-height: 40px;
+		-webkit-text-stroke: 1px $color-blue-dark;
+		margin-bottom: 3vh;
+		
+	}
+	.catchphrase{
+		font-weight: normal;
+		font-size: 8vw;
+	}
+}

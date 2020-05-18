@@ -24,6 +24,31 @@ class JoinRequestController {
       next(err);
     }
   };
+
+  create = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const {
+        memberId,
+        clubId,
+      } = req.body;
+
+      let foundRequest = await JoinRequest.findOne({ _memberId: memberId });
+      if (foundRequest) {
+        return res.status(403).json({ error: 'User had already send a request' });
+      }
+
+      const newJoinRequest: IJoinRequest = new JoinRequest({
+        _memberId: memberId,
+        _clubId: clubId,
+      });
+
+      const joinRequest: IJoinRequest = await newJoinRequest.save();
+
+      return res.status(200).json(joinRequest);
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default JoinRequestController;

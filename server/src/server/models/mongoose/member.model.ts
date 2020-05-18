@@ -2,10 +2,20 @@ import { default as mongoose, Schema, Document, PaginateModel } from 'mongoose';
 import { default as mongoosePaginate } from 'mongoose-paginate';
 import { IMemberType } from './memberType.model';
 import { IClub } from './club.model';
+import { default as bcrypt } from 'bcrypt';
 
 interface IExtraInfo {
   position: string;
   foot: string;
+}
+
+interface ILocalProvider {
+  password: string;
+}
+
+interface IFacebookProvider {
+  id: string;
+  token: string;
 }
 
 interface IMember extends Document {
@@ -20,10 +30,14 @@ interface IMember extends Document {
   _clubId: IClub['_id'];
   _memberTypeId: Array<IMemberType['_id']>;
 
+  localProvider?: ILocalProvider;
+  facebookProvider?: IFacebookProvider;
+
   _createdAt: number;
   _modifiedAt: number;
   _deletedAt: number;
 
+  comparePassword(candidatePassword: String, cb: Function): void;
   slugify(): void;
 }
 
@@ -48,7 +62,7 @@ const memberSchema: Schema = new Schema(
     },
     ageCategory: {
       type: String,
-      required: true,
+      required: false,
       max: 16,
     },
     phoneNumber: {
@@ -61,6 +75,22 @@ const memberSchema: Schema = new Schema(
       foot: String,
       required: false,
     },
+    localProvider: {
+      password: {
+        type: String,
+        required: false,
+      },
+    },
+    facebookProvider: {
+      id: {
+        type: String,
+        required: false,
+      },
+      token: {
+        type: String,
+        required: false,
+      },
+    },
     _clubId: {
       type: Schema.Types.ObjectId,
       ref: 'Club',
@@ -69,7 +99,7 @@ const memberSchema: Schema = new Schema(
     _memberTypeId: {
       type: Schema.Types.ObjectId,
       ref: 'MemberType',
-      required: true,
+      required: false,
     },
     _createdAt: { type: Number, required: true, default: Date.now() },
     _modifiedAt: { type: Number, required: false, default: null },
@@ -98,6 +128,17 @@ memberSchema.virtual('club', {
   foreignField: '_id',
   justOne: true,
 });
+
+memberSchema.methods.comparePassword = function(
+  candidatePassword: String,
+  cb: Function,
+) {
+  const user = this;
+  bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
+    if (err) return cb(err, null);
+    return cb(null, isMatch);
+  });
+};
 
 memberSchema.plugin(mongoosePaginate);
 const Member = mongoose.model<IMember, IMemberModel>('Member', memberSchema);

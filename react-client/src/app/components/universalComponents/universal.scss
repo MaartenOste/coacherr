@@ -1,0 +1,24 @@
+@import '../../_sass/abstracts/variables';
+
+.InputField {
+	text-transform: capitalize;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 2vh;
+	input{
+		border: 1px solid $color-green-light;
+		color: $color-green-light;
+		padding: 5px;
+		width: 100%;
+		margin-top: 5px;
+	}
+	input::placeholder{
+		color: $color-green-light;
+		width: 100%;
+	}
+}
+
+main{
+	min-height: 90vh;
+	margin-top: 5vh;
+}

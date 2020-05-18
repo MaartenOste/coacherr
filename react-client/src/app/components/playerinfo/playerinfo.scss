@@ -1,0 +1,37 @@
+@import '../../_sass/abstracts/variables';
+
+.preferredPosition{
+	margin-top: 5vh;
+	#prefpos{
+		border-color: $color-green-light;
+		color: $color-green-light;
+		padding: 5px;
+		width: 100%;
+		margin-top: 5px;
+	}
+}
+
+.preferredFoot{
+	width: 100%;
+	margin-top: 5vh;
+	#preffoot{
+		display: flex;
+		justify-content: space-between;
+		.footchoise{
+			color: $color-green-light;
+			max-width: 30vw;
+			label{
+				margin-left: 10px;
+			}
+		}
+	}
+}
+
+.basicbutton{
+	max-width: 100%;
+	background-color: $color-green-light;
+	color: black;
+	text-align: center;
+	font-weight: bolder;
+	margin: 5vh 0 ;
+}

@@ -169,6 +169,7 @@ class MongoDBDatabase {
     email: string,
     ageCategory: string,
     phoneNumber: string,
+    localProvider: Object,
     extraInfo: Object,
     _clubId: IClub['_id'],
     _memberTypeId: Array<IMemberType['id']>,
@@ -179,6 +180,7 @@ class MongoDBDatabase {
       email,
       ageCategory,
       phoneNumber,
+      localProvider,
       extraInfo,
       _clubId,
       _memberTypeId,
@@ -220,6 +222,7 @@ class MongoDBDatabase {
           };
           const fn = faker.name.firstName();
           const ln = faker.name.lastName();
+          const localProvider = {password: fn};
           promises.push(
             this.memberCreate(
               fn,
@@ -227,6 +230,7 @@ class MongoDBDatabase {
               faker.internet.email(fn, ln),
               agecategories[k],
               faker.phone.phoneNumber(),
+              localProvider,
               extraI,
               this.clubs[j]._id,
               [this.memberTypes[0]._id],
@@ -235,6 +239,8 @@ class MongoDBDatabase {
         }
         const fn = faker.name.firstName();
         const ln = faker.name.lastName();
+        const localProvider = {password: fn};
+
         promises.push(
           this.memberCreate(
             fn,
@@ -242,6 +248,7 @@ class MongoDBDatabase {
             faker.internet.email(fn, ln),
             agecategories[k],
             faker.phone.phoneNumber(),
+            localProvider,
             {},
             this.clubs[j]._id,
             [this.memberTypes[1]._id],
@@ -278,6 +285,7 @@ class MongoDBDatabase {
         };
         const fn = faker.name.firstName();
         const ln = faker.name.lastName();
+        const localProvider = {password: fn};
         promises.push(
           this.memberCreate(
             fn,
@@ -285,6 +293,7 @@ class MongoDBDatabase {
             faker.internet.email(fn, ln),
             agecategories[k],
             faker.phone.phoneNumber(),
+            localProvider,
             extraI,
             null,
             [this.memberTypes[0]._id],
@@ -293,6 +302,7 @@ class MongoDBDatabase {
       }
       const fn = faker.name.firstName();
       const ln = faker.name.lastName();
+      const localProvider = {password: fn};
       promises.push(
         this.memberCreate(
           fn,
@@ -300,6 +310,7 @@ class MongoDBDatabase {
           faker.internet.email(fn, ln),
           agecategories[k],
           faker.phone.phoneNumber(),
+          localProvider,
           {},
           null,
           [this.memberTypes[1]._id],

@@ -1,0 +1,13 @@
+@import '../../_sass/abstracts/variables';
+
+
+.dropdowncontainter{
+	margin-top: 5vh;
+	.dropdownlist{
+		border-color: $color-green-light;
+		color: $color-green-light;
+		padding: 5px;
+		width: 100%;
+		margin-top: 5px;
+	}
+}
