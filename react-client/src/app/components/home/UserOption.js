@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as Routes from '../../routes';
 
 const UserOption = ({title, imgsrc, typeName}) => {
@@ -14,7 +14,7 @@ const UserOption = ({title, imgsrc, typeName}) => {
 	}
 
 	return (
-		typeName == 'Club'? 
+		typeName === 'Club'? 
 			<Link className="nav-link useroption"  to={Routes.AUTH_SIGN_IN_CLUB} style={img} onClick={ev => setType(ev)}>
 				<div className="optiontitle">{title}</div>
 			</Link>

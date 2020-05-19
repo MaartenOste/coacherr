@@ -25,6 +25,14 @@ main {
 
 .backbutton {
 	color: $color-green-light;
-    font-size: 8vw;
+    font-size: 30px;
     margin-bottom: 5vh;
+}
+
+.pagetitle{
+    font-size: 30px;
+    text-decoration: underline;
+    color: $color-green-dark;
+    font-weight: 800;
+    margin-bottom: 2vh;
 }

@@ -1,8 +1,8 @@
 import { default as React, Fragment, useState, useEffect} from 'react';
-import { useHistory, Route } from 'react-router';
+import { useHistory } from 'react-router';
 import * as Routes from '../routes';
-import { Link, Redirect } from 'react-router-dom';
-import { Button, BackButton, InputField} from '../components';
+import { Link } from 'react-router-dom';
+import { BackButton, InputField} from '../components';
 import {Footer } from '../components';
 import { useAuth } from '../services';
 
@@ -18,9 +18,7 @@ const SignInMemberPage = ({children}) => {
 		  password: document.getElementById('password').value,
     };
     const user = await signInMemberLocal(data.email, data.password);
-    setCurrentUser(user);
-    console.log(user.ok);
-    
+    setCurrentUser(user);    
     if (user.ok !== false) {
       setCurrentUser(user);
       history.push(Routes.PLAYER_INFO);
@@ -28,7 +26,6 @@ const SignInMemberPage = ({children}) => {
     };
 
     useEffect(() => {
-      console.log(currentUser);
 
     }, [currentUser]);
 

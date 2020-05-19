@@ -49,6 +49,21 @@ class JoinRequestController {
       next(err);
     }
   };
+
+    destroy = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+      const {
+        memberId,
+      } = req.body;
+  
+      let foundRequest = await JoinRequest.findOne({ _memberId: memberId });
+      if (foundRequest) {
+        await JoinRequest.deleteOne({ _memberId: memberId });
+        return res.status(200).json({ message: 'JoinRequest deleted succesfully' });
+      }else {
+        return res.status(403).json({ error: 'JoinRequest not found' });
+      }
+  };
+
 }
 
 export default JoinRequestController;

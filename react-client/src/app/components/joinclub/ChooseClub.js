@@ -17,8 +17,7 @@ const ChooseClub = ({children}) => {
 	)
 
 	useEffect(() => {
-	initFetch();
-
+		initFetch();
 	return () => {
 		// no cleanup
 	}

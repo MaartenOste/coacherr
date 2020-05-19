@@ -1,5 +1,4 @@
-import { default as React, useCallback, useEffect, useState} from 'react';
-import { useApi } from '../../services';
+import { default as React} from 'react';
 
 const ChooseAge = ({children}) => {
 	const agecategories = [
@@ -18,7 +17,7 @@ const ChooseAge = ({children}) => {
 	return (
 		<div className="dropdowncontainter">
 			<div>Age Category</div>
-				<select className="dropdownlist">
+				<select className="dropdownlist" id="age">
 				{agecategories && agecategories.map(agecategorie => {
 					return <option value={agecategorie} key={agecategorie}>{agecategorie}</option>
 				})}

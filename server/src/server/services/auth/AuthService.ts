@@ -85,7 +85,7 @@ class AuthService {
     );
   };
 
-  public createToken(member: IMember): string {
+  public createToken(member: any): string {
     const payload = {
       id: member._id,
     };
@@ -93,6 +93,7 @@ class AuthService {
       expiresIn: 60 * 120,
     });
   }
+
 /*
   public checkIsInRole = (...roles: Array<string>) => (
     req: Request,

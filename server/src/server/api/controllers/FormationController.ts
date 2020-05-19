@@ -24,6 +24,16 @@ class FormationController {
       next(err);
     }
   };
+
+  formationsByClubAndAge = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { clubId, age } = req.params;
+      const formation = await Formation.find({_clubId: clubId, ageCategory:age});
+      return res.status(200).json(formation);
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default FormationController;

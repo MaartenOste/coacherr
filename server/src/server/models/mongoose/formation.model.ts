@@ -2,13 +2,15 @@ import { default as mongoose, Schema, Document, PaginateModel } from 'mongoose';
 import { default as mongoosePaginate } from 'mongoose-paginate';
 import { default as slug } from 'slug';
 import { IMember } from './member.model';
+import { IClub } from './club.model';
 
 interface IFormation extends Document {
   structure: string;
   ageCategory: string;
   _coachId: IMember['_id'];
   _playersIds: Array<IMember['_id']>;
-
+  _clubId:IClub['_id'];
+  date:string;
   _createdAt: number;
   _modifiedAt: number;
   _deletedAt: number;
@@ -30,6 +32,12 @@ const formationSchema: Schema = new Schema(
     _playersIds: [
       { type: Schema.Types.ObjectId, ref: 'Member', required: true },
     ],
+    _clubId: { type: Schema.Types.ObjectId, ref: 'Club', required: true },
+    date:{
+      type: Number,
+      required: true,
+      max: 2590800400,
+    },
 
     _createdAt: { type: Number, required: true, default: Date.now() },
     _modifiedAt: { type: Number, required: false, default: null },
@@ -59,12 +67,13 @@ formationSchema.virtual('players', {
   justOne: false,
 });
 
-formationSchema.virtual('statistic', {
-  ref: 'Statistic',
-  localField: '_statisticId',
+formationSchema.virtual('club', {
+  ref: 'Club',
+  localField: '_clubId',
   foreignField: '_id',
   justOne: true,
 });
+
 
 formationSchema.plugin(mongoosePaginate);
 const Formation = mongoose.model<IFormation, IFormationModel>(

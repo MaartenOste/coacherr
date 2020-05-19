@@ -1,5 +1,5 @@
 import { default as React, Fragment} from 'react';
-import { useHistory, Route } from 'react-router';
+import { useHistory } from 'react-router';
 import * as Routes from '../routes';
 import { Link } from 'react-router-dom';
 import { Button, BackButton, InputField} from '../components';
@@ -14,14 +14,10 @@ const PayerInfoPage = ({children}) => {
   const { findMember, updateMember } = useApi();
 
   const checkInfo = async () => {
-      if (localStorage.getItem('mern:authUser') == null){
-        history.push(Routes.LANDING);
-      }
       const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
       if (member.extraInfo || localStorage.getItem('userType') == "Coach") {
         history.push(Routes.JOIN_CLUB);
       }
-    
   }
 
   const setInfo = async () => {

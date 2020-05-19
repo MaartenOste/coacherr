@@ -68,16 +68,22 @@ const AuthProvider = ({ children }) => {
     let url = `${apiConfig.baseURL}/auth/signup/member`;
 
     const body = {
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phoneNumber: phoneNumber,
-      password:password
+      "firstname": firstname,
+      "lastname": lastname,
+      "email": email,
+      "phoneNumber": phoneNumber,
+      "password":password
     };
+
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
 
     const options = {
       method: 'POST',
-      body: body,
+      headers: myHeaders,
+      body: JSON.stringify(body),
       redirect: 'follow'
     };
 

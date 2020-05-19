@@ -59,6 +59,7 @@ class ApiRouter {
      * Formation routes
      */
     this.router.get('/formations', this.formationController.index);
+    this.router.get('/formations/:clubId&:age', this.formationController.formationsByClubAndAge);
     this.router.get('/formations/:id', this.formationController.show);
     /*
      * JoinRequest routes
@@ -66,12 +67,14 @@ class ApiRouter {
     this.router.get('/joinRequests', this.joinRequestController.index);
     this.router.get('/joinRequests/:id', this.joinRequestController.show);
     this.router.post('/joinRequests/create', this.joinRequestController.create);
+    this.router.post('/joinRequests/delete', this.joinRequestController.destroy);
+
     /*
      * Member routes
      */
     this.router.get('/members', this.memberController.index);
-    this.router.get('/members/:id', this.memberController.show);
     this.router.get('/membersfromclub/:clubId&:age', this.memberController.showMembersFromClub);
+    this.router.get('/members/:id', this.memberController.show);
     this.router.post('/auth/signin/member', this.memberController.signInLocal);
     this.router.post('/auth/signup/member', this.memberController.signupLocal);
     this.router.post('/members/update', this.memberController.update);

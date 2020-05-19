@@ -1,5 +1,4 @@
 import { default as React, useContext, createContext } from 'react';
-
 import { apiConfig } from '../config';
 
 const ApiContext = createContext();
@@ -37,6 +36,12 @@ const ApiProvider = ({children}) => {
     return response.json();
   }
 
+  const findClub = async (id) => {
+    let url = `${BASE_URL}/clubs/${id}`;
+    const response = await fetch(url);
+    return response.json();
+  }
+
   const makeJoinRequest = async (memberId, clubId) => {
     let url = `${BASE_URL}/joinRequests/create`;
     const myHeaders = {
@@ -56,9 +61,47 @@ const ApiProvider = ({children}) => {
     const response = await fetch(`${url}`, options);
     const joinRequests = await response.json();
     return joinRequests;
-    
   }
 
+  const destroyJoinRequest = async (memberId) => {
+    let url = `${BASE_URL}/joinRequests/delete`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const data = {
+      memberId,
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const joinRequests = await response.json();
+    return joinRequests;
+  }
+
+  const getJoinRequests= async () => {
+    let url = `${BASE_URL}/joinRequests`;
+    const joinRequests = await fetch(url);
+
+    return joinRequests.json();
+  }
+
+  const getFormationsFromClubAndAge = async (clubId, age) => {
+    let url = `${BASE_URL}/formations/${clubId}&${age}`;
+    const joinRequests = await fetch(url);
+
+    return joinRequests.json();
+  }
+
+  const getFormationsById = async (id) => {
+    let url = `${BASE_URL}/formations/${id}`;
+    const joinRequests = await fetch(url);
+    return joinRequests.json();
+  }
 /*
   const findAllPosts = async (query = null) => {
     let url = `${BASE_URL}/posts`;
@@ -136,14 +179,15 @@ const ApiProvider = ({children}) => {
     const response = await fetch(`${BASE_URL}/posts/${id}?mode=${mode}`, options);
     return await response.json();
   }
-*/
+
   const queryParams = (options) => {
     return Object.keys(options)
       .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options[key])).join('&');
   }
+*/
 
   return (
-    <ApiContext.Provider value={{ findClubs, findMember,makeJoinRequest, updateMember }}>
+    <ApiContext.Provider value={{ destroyJoinRequest, findClub, findClubs, getFormationsById, getFormationsFromClubAndAge, getJoinRequests , findMember,makeJoinRequest, updateMember }}>
       {children}
     </ApiContext.Provider>
   );

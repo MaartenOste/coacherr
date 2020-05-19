@@ -103,7 +103,7 @@ class MongoDBDatabase {
 
       this.logger.info(`Club created with id: ${createdClub._id}`, {});
     } catch (err) {
-      this.logger.error(`An error occurred when creating a user ${err}`, err);
+      this.logger.error(`An error occurred when creating a Club ${err}`, err);
     }
   };
 
@@ -149,7 +149,7 @@ class MongoDBDatabase {
         {},
       );
     } catch (err) {
-      this.logger.error(`An error occurred when creating a user ${err}`, err);
+      this.logger.error(`An error occurred when creating a member ${err}`, err);
     }
   };
 
@@ -193,7 +193,7 @@ class MongoDBDatabase {
 
       this.logger.info(`Member created with id: ${createdMember._id}`, {});
     } catch (err) {
-      this.logger.error(`An error occurred when creating a user ${err}`, err);
+      this.logger.error(`An error occurred when creating a member ${err}`, err);
     }
   };
 
@@ -340,7 +340,7 @@ class MongoDBDatabase {
         {},
       );
     } catch (err) {
-      this.logger.error(`An error occurred when creating a user ${err}`, err);
+      this.logger.error(`An error occurred when creating a Join request ${err}`, err);
     }
   };
 
@@ -366,12 +366,17 @@ class MongoDBDatabase {
     ageCategory: String,
     _coachId: IMember['_id'],
     _playersIds: Array<IMember>,
+    _clubId: IClub['_id'],
+    date:Number,
+
   ) => {
     const formationDetail = {
       structure,
       ageCategory,
       _coachId,
       _playersIds,
+      _clubId,
+      date,
     };
     const formation: IFormation = new Formation(formationDetail);
 
@@ -384,7 +389,7 @@ class MongoDBDatabase {
         {},
       );
     } catch (err) {
-      this.logger.error(`An error occurred when creating a user ${err}`, err);
+      this.logger.error(`An error occurred when creating a formation ${err}`, err);
     }
   };
 
@@ -460,6 +465,8 @@ class MongoDBDatabase {
                 this.clubs[j]['_id'].toString(),
                 agecategories[k],
               ),
+              this.clubs[faker.random.number(this.clubs.length - 1)]['_id'],
+              faker.random.number({"min":1577836800,"max":1590800400}),
             ),
           );
         }
@@ -488,7 +495,7 @@ class MongoDBDatabase {
         {},
       );
     } catch (err) {
-      this.logger.error(`An error occurred when creating a user ${err}`, err);
+      this.logger.error(`An error occurred when creating a statistic ${err}`, err);
     }
   };
 
