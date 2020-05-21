@@ -1,11 +1,11 @@
 import { default as React } from 'react';
 import './universal.scss';
 
-const InputField = ({label, type}) => {
+const InputField = ({label, type, value}) => {
 	return (
 		<div className="InputField">
 			<label htmlFor={label}>{label}:</label>
-  			<input type={type? type: "text"} id={label} name={label} placeholder={label}/>
+  			<input type={type? type: "text"} id={label} name={label} placeholder={label} defaultValue={value?value:''}/>
 		</div>
   );
 };

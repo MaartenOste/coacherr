@@ -1,6 +1,6 @@
 import { default as React } from 'react';
 
-const PreferredFoot = ({route, title}) => {
+const PreferredFoot = ({children}) => {
 
 	return (
 		<div className="preferredFoot">

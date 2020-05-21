@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
 
-import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpMemberPage} from './pages';
+import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, MemberSettingsPage, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpMemberPage} from './pages';
 import { AdminPage } from './admin/pages';
 import { BackofficeLayout, PageLayout, ErrorLayout, AuthLayout } from './layouts';
 import { AuthRouteWithLayout, RouteWithLayout } from './utilities';
@@ -28,7 +28,7 @@ function App() {
               <AuthRouteWithLayout exact path={Routes.AWAITING_REQUEST} component={AwaitingRequestPage}/>
               <AuthRouteWithLayout exact path={Routes.FORMATIONS} component={FormationsPage}/>
               <AuthRouteWithLayout exact path={Routes.FORMATIONS_DETAIL} component={FormationDetailPage}/>
-
+              <AuthRouteWithLayout exact path={Routes.MEMBER_SETTINGS} component={MemberSettingsPage}/>
               <RouteWithLayout component={NotFoundPage} layout={ErrorLayout} />
             </Switch>
           </Router>

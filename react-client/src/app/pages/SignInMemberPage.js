@@ -41,10 +41,12 @@ const SignInMemberPage = ({children}) => {
         <BackButton />
         <InputField label="email"/>
         <InputField type="password" label="password"/>
-        <div>Don't have an account</div>
-        <Link className="nav-link"  to={Routes.AUTH_SIGNUP_MEMBER}> 
-          <div>register here </div>
-        </Link >
+        <div className="register">
+          <div>Don't have an account </div>
+          <Link className="registerlink" to={Routes.AUTH_SIGNUP_MEMBER}> 
+            <div> register here </div>
+          </Link >
+        </div>
         <div className="basicbutton" onClick={ev => initSignInMember(ev) }>sign in</div>
       </main>
       <Footer/>

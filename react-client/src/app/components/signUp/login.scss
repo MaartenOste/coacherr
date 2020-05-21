@@ -1,5 +1,13 @@
 .InputFieldList{
-
 	margin-top: 0px;
+}
 
+.register {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	font-size: 15px;
+	.registerlink{
+		margin-left: 1vw;
+	}
 }

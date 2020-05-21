@@ -2,6 +2,7 @@ import { default as AwaitingRequestPage } from './AwaitingRequestPage';
 import { default as FormationsPage } from './FormationsPage';
 import { default as FormationDetailPage } from './FormationDetailPage';
 import { default as HomePage } from './HomePage';
+import { default as MemberSettingsPage } from './MemberSettingsPage';
 import { default as NotFoundPage } from './NotFoundPage';
 import { default as PayerInfoPage } from './PlayerInfoPage';
 import { default as SignInMemberPage } from './SignInMemberPage';
@@ -13,6 +14,7 @@ export {
   FormationsPage,
   FormationDetailPage,
   HomePage,
+  MemberSettingsPage,
   NotFoundPage,
   PayerInfoPage,
   SignInMemberPage,

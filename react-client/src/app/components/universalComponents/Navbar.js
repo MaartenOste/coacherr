@@ -13,6 +13,9 @@ const Navbar = ({backbutton}) => {
 		logout();
 		history.push(Routes.LANDING);
 	}
+	const handleSettings = () => {
+		history.push(Routes.MEMBER_SETTINGS);
+	}
 
 	return (
 		<div className="navigation">
@@ -20,7 +23,7 @@ const Navbar = ({backbutton}) => {
 				{backbutton?<BackButton />:''}
 			</div>
 			<div className="rightcomponent">
-				<i className="fas fa-user-cog"></i>
+				<i className="fas fa-user-cog" onClick={ev => handleSettings()}></i>
 				<div className="logoutbutton" onClick={ev => handleLogout()}>log out</div>
 			</div>
 		</div>

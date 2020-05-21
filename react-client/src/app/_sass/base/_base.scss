@@ -11,8 +11,10 @@ body {
 
 main {
     padding: 0 10vw;
-}
+    margin: 5vh 0 2vh 0 ;
+    min-height: 85vh;
 
+}
 .basicbutton{
 	max-width: 100%;
 	background-color: $color-green-light;
