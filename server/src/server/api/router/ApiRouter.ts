@@ -87,6 +87,7 @@ class ApiRouter {
      * Statistic routes
      */
     this.router.get('/statistics', this.statisticController.index);
+    this.router.get('/statisticsfromformation/:id', this.statisticController.statisticsFromFormation);
     this.router.get('/statistics/:id', this.statisticController.show);
     /*
     this.router.get('/users', this.userController.index);

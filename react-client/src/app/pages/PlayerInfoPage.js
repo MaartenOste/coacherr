@@ -4,21 +4,16 @@ import * as Routes from '../routes';
 import { Link } from 'react-router-dom';
 import { Button, BackButton, InputField} from '../components';
 import {Footer } from '../components';
-import { useApi } from '../services';
+import { useApi, useAuth } from '../services';
 import {PreferredFoot, PreferredPosition} from '../components/playerinfo';
 import '../components/playerinfo/playerinfo.scss';
 
 
 const PayerInfoPage = ({children}) => {
   const history = useHistory();
-  const { findMember, updateMember } = useApi();
-
-  const checkInfo = async () => {
-      const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
-      if (member.extraInfo || localStorage.getItem('userType') == "Coach") {
-        history.push(Routes.JOIN_CLUB);
-      }
-  }
+  const { findMember, updateMember } = useApi()
+  const { logout } = useAuth();
+  ;
 
   const setInfo = async () => {
     const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
@@ -31,12 +26,14 @@ const PayerInfoPage = ({children}) => {
 	  history.push(Routes.JOIN_CLUB);
   }
 
-  checkInfo();
+  const handleLogout = async () => {
+    logout();
+    history.push(Routes.LANDING);
+  }
   
   return (
     <Fragment>
       <main>
-        <BackButton />
         <h2>Just a some more
           personal info and 
           you are done!
@@ -44,6 +41,7 @@ const PayerInfoPage = ({children}) => {
         <PreferredPosition/>
         <PreferredFoot/>
 		    <div className="basicbutton" onClick={ev => setInfo()}>save info</div>
+        <div className="basicbutton" onClick={ev => handleLogout()}>logout</div>
       </main>
       <Footer/>
     </Fragment>

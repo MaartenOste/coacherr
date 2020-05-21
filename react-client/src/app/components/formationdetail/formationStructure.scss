@@ -1,0 +1,69 @@
+@import '../../_sass/abstracts/index';
+
+.formationStructureContainer{
+	height: 40vh;
+	width: 100%;
+	background-image: url('../../_static/images/veld.jfif');
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-top: 10px;
+	.formationRow{
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: nowrap;
+		font-size: 15px;
+		color: white;
+		.playerContainer{
+			display: flex;
+			text-align: center;
+			flex-direction: column;
+		}
+		.fas{
+			font-size: 9.5vw;
+		}
+	}
+}
+.benchContainer{
+	margin-top: 1vh;
+	background-color:$color-green-light;
+	padding: 5px 10px;
+	border-radius: 7px;
+	.benchTitle{
+		text-transform: capitalize;
+		font-weight: 800;
+		text-decoration: underline	;
+	}
+	.bench{
+		margin-top: 1vh;
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: nowrap;
+		font-size: 15px;
+		.playerContainer{
+			display: flex;
+			text-align: center;
+			flex-direction: column;
+		}
+		.fas{
+			color: $color-beige;
+
+			font-size: 9.5vw;
+		}
+	}
+}
+
+.formationInfo{
+	padding: 5px 10px;
+	min-height: 150px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	.formationInfoTitle{
+		text-transform: capitalize;
+		font-weight: 800;
+		text-decoration: underline	;
+	}
+}

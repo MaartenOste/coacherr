@@ -16,6 +16,7 @@ class MemberController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let members = await Member.find()
+        .populate('membertype')
         .sort({ _createdAt: -1 })
         .exec();
 
@@ -29,7 +30,9 @@ class MemberController {
     try {
       const { id } = req.params;
 
-      const member = await Member.findById(id).exec();
+      const member = await Member.findById(id)
+      .populate('membertype')
+      .exec();
       return res.status(200).json(member);
     } catch (err) {
       next(err);
@@ -39,7 +42,10 @@ class MemberController {
   showMembersFromClub = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { clubId, age } = req.params;
-      const players = await Member.find().where('_clubId', clubId).where('ageCategory', age);
+      const players = await Member.find()
+      .populate('membertype')
+      .where('_clubId', clubId)
+      .where('ageCategory', age);
       return res.status(200).json(players);
     } catch (err) {
       next(err);

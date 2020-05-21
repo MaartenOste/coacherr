@@ -5,7 +5,8 @@ class FormationController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let formations = await Formation.find()
-        .sort({ _createdAt: -1 })
+        .sort({ date: -1 })
+        .populate('players')
         .exec();
 
       return res.status(200).json(formations);
@@ -18,7 +19,10 @@ class FormationController {
     try {
       const { id } = req.params;
 
-      const formation = await Formation.findById(id).exec();
+      const formation = await Formation.findById(id)
+      .populate('players')
+      .populate('club')
+      .exec();
       return res.status(200).json(formation);
     } catch (err) {
       next(err);
@@ -28,7 +32,8 @@ class FormationController {
   formationsByClubAndAge = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { clubId, age } = req.params;
-      const formation = await Formation.find({_clubId: clubId, ageCategory:age});
+      const formation = await Formation.find({_clubId: clubId, ageCategory:age})
+      .sort({ date: -1 });
       return res.status(200).json(formation);
     } catch (err) {
       next(err);

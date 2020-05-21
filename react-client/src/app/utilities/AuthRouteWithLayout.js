@@ -10,7 +10,6 @@ const renderMergedProps = (component, layout, routeProps) => {
 
 const AuthRouteWithLayout = ({ component, layout, ...rest }) => {
   const { currentUser } = useAuth();
-
   return (
     <Route {...rest} render={routeProps => {
       return !!currentUser ? (

@@ -9,7 +9,6 @@ import { useApi } from '../services';
 const AwaitingRequestPage = ({children}) => {
   const history = useHistory();
   const [formations, setFormations] = useState();
-
   const { findMember, getFormationsFromClubAndAge } = useApi();
 
 	const initFetch = useCallback(
@@ -40,11 +39,12 @@ const AwaitingRequestPage = ({children}) => {
 		<Header />
       <main>
 		<Navbar backbutton={false}/>
-		<div className="pagetitle">Formations</div>
+		<div className="formationdetailtitle">
+			<div className="pagetitle">Formations {formations?(formations[0].ageCategory):''}</div>
+		</div>		
 		{formations && formations.map(formation => {
-						return <Card member={true} edit={false} data={formation} key={formation._id} onClick={ev => handleFormationDetail(formation._id)}/>
-					})
-		}
+			return <Card member={true} edit={false} data={formation} key={formation._id} onClick={ev => handleFormationDetail(formation._id)}/>
+		})}
         <div className="allformations" >These are all formations for your team.</div>
       </main>
       <Footer/>

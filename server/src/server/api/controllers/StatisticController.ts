@@ -24,6 +24,15 @@ class StatisticController {
       next(err);
     }
   };
+  statisticsFromFormation = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const statistic = await Statistic.findOne().where('_formationId', id);
+      return res.status(200).json(statistic);
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default StatisticController;

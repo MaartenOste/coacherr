@@ -1,26 +1,26 @@
 import { default as React, Fragment, useCallback, useEffect,useState} from 'react';
 import {  useParams } from 'react-router';
-import { Header, Navbar } from '../components';
-import {Footer } from '../components';
+import { Bench, Footer, FormationInfo, FormationStructure, Header, Navbar } from '../components';
 import { useApi } from '../services';
-
 
 const FormationDetailPage = ({children}) => {
 	const { id } = useParams();
-	const { getFormationsById } = useApi();
-	const [ formation, setFormation] = useState(null);
-  
+	const { getFormationById, getStatisticsFromFormation } = useApi();
+	const [ formation, setFormation] = useState();
+	const [ statistics, setStatistics] = useState();
+
 	const initFetch = useCallback(
 	  () => {
 		const fetchFormation = async () => {
-		  const data = await getFormationsById(id);
-		  
+		  const data = await getFormationById(id);
+		  const stats = await getStatisticsFromFormation(id);
 		  setFormation(data);
+		  setStatistics(stats)
 		}
   
 		fetchFormation();
 	  },
-	  [getFormationsById, id],
+	  [getFormationById, getStatisticsFromFormation, id],
 	)
   
 	useEffect(() => {
@@ -44,8 +44,9 @@ const FormationDetailPage = ({children}) => {
 		<div className="formationdetailtitle">
 			<div className="pagetitle">Formation </div><div className="formationdate">{formation?timestampToDate(formation.date):''}</div>
 		</div>
-  		
-		{formation?formation.structure: ''}
+  		<FormationStructure players={formation?formation.players:[]} strucure={formation?formation.structure:'4-3-3'}/>
+		<Bench players={formation?formation.players:[]}/>
+		<FormationInfo club={formation?formation.club:''} structure={formation?formation.structure:''} score={statistics?statistics.score:''}/>
       </main>
       <Footer/>
     </Fragment>
