@@ -215,7 +215,7 @@ class MongoDBDatabase {
     const feet = ['left', 'right'];
     for (let j = 0; j < this.clubs.length; j++) {
       for (let k = 0; k < agecategories.length; k++) {
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 20; i++) {
           const extraI = {
             position: positions[faker.random.number(positions.length - 1)],
             foot: feet[faker.random.number(feet.length - 1)],
@@ -256,6 +256,18 @@ class MongoDBDatabase {
         );
       }
     }
+    promises.push(
+      this.memberCreate(
+        'a',
+        'Add',
+        'add@email.com',
+        null,
+        null,
+        null,
+        {},
+        null,
+        null,
+      ));
 
     return await Promise.all(promises);
   };

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { IJoinRequest, JoinRequest } from '../../models/mongoose';
+import { NotFoundError } from '../../utilities';
 
 class JoinRequestController {
   index = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,8 +18,17 @@ class JoinRequestController {
   show = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-
       const joinRequest = await JoinRequest.findById(id).exec();
+      return res.status(200).json(joinRequest);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  deleteJoinRequestOfMember = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const joinRequest = await JoinRequest.findOneAndDelete({_memberId: id}).exec();
       return res.status(200).json(joinRequest);
     } catch (err) {
       next(err);
@@ -51,17 +61,43 @@ class JoinRequestController {
   };
 
     destroy = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
-      const {
-        memberId,
-      } = req.body;
-  
-      let foundRequest = await JoinRequest.findOne({ _memberId: memberId });
-      if (foundRequest) {
-        await JoinRequest.deleteOne({ _memberId: memberId });
-        return res.status(200).json({ message: 'JoinRequest deleted succesfully' });
-      }else {
-        return res.status(403).json({ error: 'JoinRequest not found' });
+      const { id } = req.params;
+      
+      try{
+        let joinRequest = null;
+
+        let { mode } = req.query;
+        switch (mode) {
+          case 'delete':
+          default:
+            joinRequest = await JoinRequest.findOneAndRemove({ _id: id });
+            break;
+          case 'softdelete':
+            joinRequest = await JoinRequest.findByIdAndUpdate(
+              { _id: id },
+              { _deletedAt: Date.now() },
+            );
+            break;
+          case 'softundelete':
+            joinRequest = await JoinRequest.findByIdAndUpdate(
+              { _id: id },
+              { _deletedAt: null },
+            );
+            break;
+        }
+        if (!joinRequest) {
+          throw new NotFoundError();
+        } else {
+          return res.status(200).json({
+            message: `Successful ${mode} the joinRequest with id: ${id}!`,
+            joinRequest,
+            mode,
+          });
+        }
+      } catch (err) {
+        next(err);
       }
+
   };
 
 }

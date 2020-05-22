@@ -3,6 +3,7 @@ import { default as FormationsPage } from './FormationsPage';
 import { default as FormationDetailPage } from './FormationDetailPage';
 import { default as HomePage } from './HomePage';
 import { default as MemberSettingsPage } from './MemberSettingsPage';
+import { default as NewFormation } from './NewFormation';
 import { default as NotFoundPage } from './NotFoundPage';
 import { default as PayerInfoPage } from './PlayerInfoPage';
 import { default as SignInMemberPage } from './SignInMemberPage';
@@ -15,6 +16,7 @@ export {
   FormationDetailPage,
   HomePage,
   MemberSettingsPage,
+  NewFormation,
   NotFoundPage,
   PayerInfoPage,
   SignInMemberPage,

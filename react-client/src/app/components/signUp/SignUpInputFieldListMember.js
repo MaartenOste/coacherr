@@ -2,27 +2,28 @@ import { default as React } from 'react';
 import { useHistory } from 'react-router';
 import { InputField } from '../universalComponents';
 import './login.scss';
-import { useAuth } from '../../services';
+import { useAuth, useApi } from '../../services';
 import * as Routes from '../../routes';
 
 
 const SignUpInputFieldListMember = ({children}) => {
 	const history = useHistory();
 	const { signupMember } = useAuth();
+	const { getMemberTypeIdByName } = useApi();
 
 	const initSignUpMember = async () => {
+		const memberTypeId = await getMemberTypeIdByName(localStorage.getItem('userType'));
 		const data = {
 		  email: document.getElementById('E-mail').value,
 		  firstname: document.getElementById('First Name').value,
 		  lastname: document.getElementById('Last Name').value,
 		  phoneNumber: document.getElementById('Phone number').value,
-		  password: document.getElementById('Password').value
+		  password: document.getElementById('Password').value,
+		  memberType : memberTypeId._id
 		};
 
 		try {
-			console.log(data);
-			
-		  await signupMember(data.email, data.firstname, data.lastname, data.phoneNumber, data.password);
+		  await signupMember(data.email, data.firstname, data.lastname, data.phoneNumber, data.password, data.memberType);
 		  history.push(Routes.PLAYER_INFO);
 		} catch (error) {
 		  console.log(error);

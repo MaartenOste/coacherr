@@ -1,19 +1,34 @@
-import { default as React} from 'react';
+import { default as React, useState} from 'react';
 
-const FormationInfo = ({club, structure, score}) => {
+const FormationInfo = ({club,change, edit, structure, score}) => {
+
+	const structures = [
+		'4-3-3',
+		'4-5-1',
+		'4-4-2',
+		'3-4-3',
+		'3-5-2',
+		'5-3-2',
+		'5-2-3',
+	  ];
 	return (
 		<div className="formationInfo">
 			<div className="formationInfoTitle">
 				Formation
 			</div>
 			<div className="formationInfoDetails">
-				{structure}
+				{edit? <select className="dropdownlist" id="chooseStructure" defaultValue={structure?structure:''} onChange={ev => change(ev.target.value)}>
+					{structures.map(struct => {
+						return <option value={struct} key={struct} selected={struct===structure?true:false}>{struct}</option>
+					})}
+				</select> : structure}
+				
 			</div>
 			<div className="formationInfoTitle">
 				Statistics
 			</div>
 			<div className="formationInfoDetails">
-				{club.name} {score} opponents
+				<div>{club.name}</div> {edit? <div className='scoreInputContainer'><input type="text" className="scoreInput" id="scorehome" maxLength='2' defaultValue={score?score.split('-')[0]:''}></input> - <input type="text" className="scoreInput" id="scoreaway" maxLength='2' defaultValue={score?score.split('-')[1]:''}></input> </div>: score} <div>opponents</div>
 			</div>
 		</div>
   );

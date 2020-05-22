@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { IStatistic, Statistic } from '../../models/mongoose';
+import { NotFoundError } from '../../utilities';
 
 class StatisticController {
   index = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,6 +34,43 @@ class StatisticController {
       next(err);
     }
   };
+
+  create = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const newStatistic: IStatistic = new Statistic({
+        _formationId: req.body._formationId,
+        score: req.body.score,
+      });
+
+      const statistic: IStatistic = await newStatistic.save();
+      return res.status(200).json(statistic);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+
+  update = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+    const { id } = req.params;
+
+    try{
+    const statisticUpdate = {
+      score: req.body.score,
+      _formationId: req.body._formationId
+    }
+    
+    const statistic = await Statistic.findOneAndUpdate({_id: id}, statisticUpdate, {
+      new: true
+    }).exec();
+    if (!statistic) {
+      throw new NotFoundError();
+    }
+    return res.status(200).json(statistic);
+  } catch (err) {
+    next(err);
+  }
+  };
+
 }
 
 export default StatisticController;

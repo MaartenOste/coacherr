@@ -4,12 +4,12 @@ import { Bench, Footer, FormationInfo, FormationStructure, Header, Navbar } from
 import { useApi } from '../services';
 import * as Routes from '../routes';
 
-const FormationDetailPage = ({children}) => {
+const NewFormation = ({children}) => {
 	const { id } = useParams();
 	const history = useHistory();
-	const { findMember, getFormationById, getMembersFromClub, getStatisticsFromFormation, updateFormation, updateStatistic } = useApi();
+	const { findMember, getFormationById, getMembersFromClub, getStatisticsFromFormation, getEmptyMember, createFormation, createStatistic } = useApi();
 	const [member, setMember] = useState();
-	const [ formation, setFormation] = useState();
+	const [ formation, setFormation] = useState([]);
 	const [ strucure, setStructure] = useState();
 	const [ statistics, setStatistics] = useState();
 	const [ allMembersFromClub, setAllMembersFromClub] = useState();
@@ -20,14 +20,11 @@ const FormationDetailPage = ({children}) => {
 		const fetchFormation = async () => {
 		  const tempmember = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
 		  setMember(tempmember);
-		  const data = await getFormationById(id);
-		  sessionStorage.setItem('players', JSON.stringify(data.players));
-		  sessionStorage.setItem('struct', data.structure);
-		  const stats = await getStatisticsFromFormation(id);
+		  console.log(tempmember);
+		  
+		  sessionStorage.setItem('struct', '4-3-3');
 		  const allMembers = await getMembersFromClub(tempmember._clubId, tempmember.ageCategory);
-		  setFormation(data);
-		  setStructure(data.strucure);
-		  setStatistics(stats);
+		  setStructure('4-3-3');
 		  setAllMembersFromClub(allMembers);
 		}
 		fetchFormation();
@@ -43,9 +40,10 @@ const FormationDetailPage = ({children}) => {
 
 	const timestampToDate = (date) => {
 		const temp = new Date(date*1000);
-		return `${temp.getFullYear()}-${('0'+ (temp.getMonth()+1).toString()).slice(-2)}-${('0'+ (temp.getDate()).toString()).slice(-2)}`;
+		return `${temp.getDate()}/${temp.getMonth()+1}/${temp.getFullYear()}`;
 	}
 
+	
 	const changeStruct = (value) => {
 		if (formation) {
 			formation.structure = value;
@@ -54,27 +52,39 @@ const FormationDetailPage = ({children}) => {
 		setUpdatePlayers(!updatePlayers);
 	}
 
-	const saveChanges = async () =>{
+	const saveFormation = async () =>{
 		let ids= [];
-		JSON.parse(sessionStorage.getItem('players')).forEach(player => {
-			ids.push(player._id);
-		});
-		const formationUpdate = {
-			_id: formation._id,
-			structure: document.getElementById('chooseStructure').value,
-			ageCategory: formation.ageCategory,
-			_coachId: formation._coachId,
-			_playersIds: ids,
-			_clubId: formation._clubId,
-			date: new Date(document.getElementById('formationdate').value).getTime()/1000,
+		const emptyMember = await getEmptyMember();
+		for (let i = 0; i < 16; i++) {
+			console.log(JSON.parse(sessionStorage.getItem('players'))[i]);
+			
+			if (JSON.parse(sessionStorage.getItem('players'))[i] !== null) {
+				ids[i] = JSON.parse(sessionStorage.getItem('players'))[i];
+			} else {
+				ids.push(emptyMember);
+			}
 		}
-		await updateFormation(formationUpdate);
-		const statisticUpdate = {
-			_id: statistics._id,
+
+		let date = new Date(document.getElementById('formationdate').value).getTime()/1000;
+		if (isNaN(date)) {
+			console.log('in date');
+			date = new Date().getTime()/1000;
+		}
+
+		const formationCreate = {
+			structure: document.getElementById('chooseStructure').value,
+			ageCategory: member.ageCategory,
+			_coachId: member._id,
+			_playersIds: ids,
+			_clubId: member._clubId,
+			date: date
+		}
+		const formation = await createFormation(formationCreate);
+		const statisticCreate = {
 			score: `${document.getElementById('scorehome').value}-${document.getElementById('scoreaway').value}`,
 			_formationId: formation._id
 		}
-		await updateStatistic(statisticUpdate)
+		await createStatistic(statisticCreate)
 		history.push(Routes.FORMATIONS);
 	}
 
@@ -193,23 +203,25 @@ const FormationDetailPage = ({children}) => {
 		<div className="formationdetailtitle">
 			<div className="pagetitle">Formation </div>
 			<div className="formationdate">
-				{formation
+				{member
 					?member.membertype[0].name==='Player'
-						?<div className="formationdate">{timestampToDate(formation.date).slice(-2)}/{timestampToDate(formation.date).substr(5,2)}/{timestampToDate(formation.date).substr(0,4)}</div>
-						:<div className="formationdate"><input type="date" id="formationdate" name="formationdate" defaultValue={timestampToDate(formation.date)}/></div>
+						?<div className="formationdate">//</div>
+						:<div className="formationdate"><input type="date" id="formationdate" name="formationdate" defaultValue={timestampToDate(new Date())}/></div>
 						:<div className="formationdate"><input type="date" id="formationdate" name="formationdate" /></div>
 					}
 			</div>
 		</div>
-		{formation? <div><FormationStructure allMembers={allMembersFromClub?allMembersFromClub:''} edit={member?member.membertype[0].name==='Coach': false} strucure={formation?formation.structure:'4-3-3'} update={updatePlayers}/>
+		{formation? <div><FormationStructure allMembers={allMembersFromClub?allMembersFromClub:''} edit={member?member.membertype[0].name==='Coach': false} strucure={'4-3-3'} update={updatePlayers}/>
 		<Bench edit={member?member.membertype[0].name==='Coach': false} update={updatePlayers}/></div>:null}
-		<FormationInfo club={formation?formation.club:''} edit={member?member.membertype[0].name==='Coach': false} score={statistics?statistics.score:''} structure={formation?formation.structure:''} change={changeStruct}/>
-		{member && member.membertype[0].name==='Coach'?<div className="basicbutton" onClick={ev => saveChanges()}>save</div>:''}
+		<FormationInfo club={member?member.club:''} edit={member?member.membertype[0].name==='Coach': false} score={'0-0'} structure={'4-3-3'} change={changeStruct}/>
+		{member?member.membertype[0].name==='Coach'?<div className="basicbutton" onClick={ev => saveFormation()}>save</div>:'': ''}
 		</div>
 	  </main>
       <Footer/>
     </Fragment>
+
   );
 };
 
-export default FormationDetailPage;
+
+export default NewFormation;

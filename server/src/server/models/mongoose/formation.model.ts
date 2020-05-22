@@ -30,7 +30,7 @@ const formationSchema: Schema = new Schema(
     },
     _coachId: { type: Schema.Types.ObjectId, ref: 'Member', required: true },
     _playersIds: [
-      { type: Schema.Types.ObjectId, ref: 'Member', required: true },
+      { type: Schema.Types.ObjectId || null, ref: 'Member', required: true },
     ],
     _clubId: { type: Schema.Types.ObjectId, ref: 'Club', required: true },
     date:{

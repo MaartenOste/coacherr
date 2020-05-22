@@ -14,8 +14,8 @@ const MemberSettingsPage = ({children}) => {
   const initFetch = useCallback(
 	() => {
 	  const fetchdata = async () => {
-		const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
-		setMember(member);
+		const temp = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
+		setMember(temp);
 	  }
 	  fetchdata();
 	},
@@ -32,9 +32,11 @@ useEffect(() => {
 		member.firstname = document.getElementById('First Name').value;
 		member.lastname = document.getElementById('Last Name').value;
 		member.phoneNumber = document.getElementById('Phone number').value;
-		member.extraInfo = {
-		  "position": document.getElementById('prefpos').value,
-		  "foot": document.querySelector('input[name="preffoot"]:checked').value
+		if (member && member.membertype[0].name === "Player") {
+			member.extraInfo = {
+				"position": document.getElementById('prefpos').value,
+				"foot": member.extraInfo.foot
+			  }
 		}
 		await updateMember(member);
 		history.push(Routes.FORMATIONS);
@@ -51,7 +53,7 @@ useEffect(() => {
 		<InputField key="First Name" label="First Name" value={member?member.firstname:''}/>
 		<InputField key="Last Name" label="Last Name" value={member?member.lastname:''}/>
 		<InputField key="Phone number" label="Phone number" value={member?member.phoneNumber:''}/>
-		<PreferredPosition value={member?member.extraInfo.position:''}/>
+		{member && member.membertype[0].name === "Player"?<PreferredPosition value={member?member.extraInfo.position:''}/>:''}
 		<div className="basicbutton" onClick={ev => saveSettings()}>save settings</div>
       </main>
       <Footer/>

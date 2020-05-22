@@ -25,6 +25,7 @@ interface IClub extends Document {
   _modifiedAt: number;
   _deletedAt: number;
 
+  comparePassword(candidatePassword: String, cb: Function): void;
   slugify(): void;
 }
 
@@ -88,6 +89,17 @@ clubSchema.pre<IClub>('validate', function(next) {
   }
   return next();
 });
+
+clubSchema.methods.comparePassword = function(
+  candidatePassword: String,
+  cb: Function,
+) {
+  const user = this;
+  bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
+    if (err) return cb(err, null);
+    return cb(null, isMatch);
+  });
+};
 
 clubSchema.pre('save', function(next) {
   const club: IClub = this as IClub;

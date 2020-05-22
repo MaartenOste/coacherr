@@ -49,7 +49,6 @@
 		}
 		.fas{
 			color: $color-beige;
-
 			font-size: 9.5vw;
 		}
 	}
@@ -65,5 +64,45 @@
 		text-transform: capitalize;
 		font-weight: 800;
 		text-decoration: underline	;
+	}
+	.formationInfoDetails{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+
+		.scoreInputContainer{
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			.scoreInput{
+				max-width: 50px;
+				text-align: center;
+			}
+		}
+
+	}
+
+}
+
+.noclick{
+	pointer-events:none;
+}
+
+.selectPlayer{
+	display: none;
+	background-color: white;
+	padding: 15px;
+	.playerType{
+		text-decoration: underline;
+		font-weight: 800;
+	}
+	.playerContainer{
+		margin-left: 10px;
+		.fas{
+			font-size: 1.5rem;
+			color: $color-green-dark;
+		}
 	}
 }

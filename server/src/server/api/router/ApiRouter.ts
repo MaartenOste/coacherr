@@ -60,35 +60,45 @@ class ApiRouter {
      */
     this.router.get('/formations', this.formationController.index);
     this.router.get('/formations/:clubId&:age', this.formationController.formationsByClubAndAge);
+    this.router.post('/formations/create', this.formationController.create);
     this.router.get('/formations/:id', this.formationController.show);
+    this.router.post('/formations/delete', this.formationController.destroy);
+    this.router.put('/formations/:id', this.formationController.update);
     /*
      * JoinRequest routes
      */
     this.router.get('/joinRequests', this.joinRequestController.index);
-    this.router.get('/joinRequests/:id', this.joinRequestController.show);
     this.router.post('/joinRequests/create', this.joinRequestController.create);
-    this.router.post('/joinRequests/delete', this.joinRequestController.destroy);
+    this.router.get('/joinRequests/:id', this.joinRequestController.show);
+    this.router.delete('/destroyJoinRequestsOfMember/:id', this.joinRequestController.deleteJoinRequestOfMember);
+    this.router.delete('/joinRequests/:id', this.joinRequestController.destroy);
 
     /*
      * Member routes
      */
     this.router.get('/members', this.memberController.index);
     this.router.get('/membersfromclub/:clubId&:age', this.memberController.showMembersFromClub);
+    this.router.get('/playersfromclub/:clubId&:age', this.memberController.showPlayersFromClub);
     this.router.get('/members/:id', this.memberController.show);
+    this.router.get('/emptymember', this.memberController.emptyMember);
     this.router.post('/auth/signin/member', this.memberController.signInLocal);
     this.router.post('/auth/signup/member', this.memberController.signupLocal);
-    this.router.post('/members/update', this.memberController.update);
+    this.router.put('/members/:id', this.memberController.update);
     /*
      * Member Type routes
      */
     this.router.get('/memberTypes', this.memberTypeController.index);
     this.router.get('/memberTypes/:id', this.memberTypeController.show);
+    this.router.get('/memberTypesByName/:name', this.memberTypeController.memberTypesByName);
+
     /*
      * Statistic routes
      */
     this.router.get('/statistics', this.statisticController.index);
     this.router.get('/statisticsfromformation/:id', this.statisticController.statisticsFromFormation);
+    this.router.post('/statistics/create', this.statisticController.create);
     this.router.get('/statistics/:id', this.statisticController.show);
+    this.router.put('/statistics/:id', this.statisticController.update);
     /*
     this.router.get('/users', this.userController.index);
     this.router.get('/users/:id', this.userController.show);

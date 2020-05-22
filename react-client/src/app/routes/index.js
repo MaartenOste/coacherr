@@ -2,6 +2,7 @@ export const LANDING = '/';
 export const HOME = '/home';
 export const FORMATIONS = '/formations';
 export const FORMATIONS_DETAIL = '/formations/:id';
+export const NEW_FORMATION = '/formation/createnew';
 
 export const AWAITING_REQUEST = '/awaiting-request';
 

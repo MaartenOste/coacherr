@@ -16,7 +16,6 @@ const UserOptionList = ({children}) => {
 	for (let i = 0; i < images.length; i++) {
 		options.push(<UserOption key={i} title={titles[i]} imgsrc={images[i]} typeName={types[i]}/>)
 	}
-	console.log(options);
 
 	return (
 		<div className='UserOptionList'>

@@ -46,7 +46,8 @@ class AuthService {
             if (!member) {
               return done(null, false, { message: 'No member by that email' });
             }
-            return member.comparePassword(password , (isMatch: boolean) => {
+            
+            return member.comparePassword(password , (error: Error, isMatch: boolean) => {
               if (!isMatch) {
                 return done(null, false);
               }

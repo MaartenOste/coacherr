@@ -9,7 +9,7 @@ import { useAuth } from '../services';
 
 const SignInMemberPage = ({children}) => {
   const history = useHistory();
-  const { signInMemberLocal } = useAuth();
+  const { signInLocal } = useAuth();
   const [currentUser, setCurrentUser] = useState();
   const { findMember } = useApi();
 
@@ -19,19 +19,19 @@ const SignInMemberPage = ({children}) => {
 		  email: document.getElementById('email').value,
 		  password: document.getElementById('password').value,
     };
-    const user = await signInMemberLocal(data.email, data.password);
-    setCurrentUser(user);    
-    if (user.ok !== false) {
+    try {
+      const user = await signInLocal(data.email, data.password, 'member');
+      setCurrentUser(user);
       const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
-      console.log(member.extraInfo);
-      
-      if (!member.extraInfo && localStorage.getItem('userType') == "Player") {
+      if (!member.extraInfo && member.membertype[0].name === 'Player') {
         history.push(Routes.PLAYER_INFO);
       } else if (!member._clubId){
         history.push(Routes.JOIN_CLUB);
       } else {
         history.push(Routes.FORMATIONS);
       }
+    } catch (error) {
+      document.getElementById('wrongCredentials').style.display = 'block';
     }
     };
 
@@ -41,6 +41,7 @@ const SignInMemberPage = ({children}) => {
         <BackButton />
         <InputField label="email"/>
         <InputField type="password" label="password"/>
+        <div id="wrongCredentials" style={{display: 'none', color: 'red', fontSize: '1rem'}}>Username or password incorrect.</div>
         <div className="register">
           <div>Don't have an account </div>
           <Link className="registerlink" to={Routes.AUTH_SIGNUP_MEMBER}> 

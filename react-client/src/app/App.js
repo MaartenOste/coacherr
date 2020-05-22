@@ -1,9 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
 
-import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, MemberSettingsPage, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpMemberPage} from './pages';
-import { AdminPage } from './admin/pages';
-import { BackofficeLayout, PageLayout, ErrorLayout, AuthLayout } from './layouts';
+import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, MemberSettingsPage, NewFormation, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpMemberPage} from './pages';
+import { ErrorLayout } from './layouts';
 import { AuthRouteWithLayout, RouteWithLayout } from './utilities';
 import * as Routes from './routes';
 import { ApiProvider, AuthProvider } from './services';
@@ -29,6 +28,7 @@ function App() {
               <AuthRouteWithLayout exact path={Routes.FORMATIONS} component={FormationsPage}/>
               <AuthRouteWithLayout exact path={Routes.FORMATIONS_DETAIL} component={FormationDetailPage}/>
               <AuthRouteWithLayout exact path={Routes.MEMBER_SETTINGS} component={MemberSettingsPage}/>
+              <AuthRouteWithLayout exact path={Routes.NEW_FORMATION} component={NewFormation}/>
               <RouteWithLayout component={NotFoundPage} layout={ErrorLayout} />
             </Switch>
           </Router>

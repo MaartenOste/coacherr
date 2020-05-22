@@ -1,15 +1,27 @@
-import { default as React} from 'react';
+import { default as React, Fragment, useCallback, useEffect,useState} from 'react';
 
-const Bench = ({ players }) => {
+const Bench = ({amount, arrayOfPlayers, update}) => {
+	const [row, setRow] = useState([]);
+	const [players, setPlayers] = useState(arrayOfPlayers);
+
+	const changePlayer = (i) => {
+		let pl = JSON.parse(sessionStorage.getItem('players'));
+		sessionStorage.setItem('PlayerToSwap', i.id);
+		document.getElementById('selectPlayer').style.display = 'block';
+		document.getElementById('detailPage').style.display = 'none';
+	}
+
+	useEffect(() => {
+		createRow();
+	  }, [update]);
 
 	const createRow = () => {
-		let row = [];	
+		const rowpl = JSON.parse(sessionStorage.getItem('players'));
+		let temp = [];
 		for (let i = 11; i < 16; i++) {
-			if (players[i]) {
-				row.push(<div className="playerContainer" key={i}><i className="fas fa-tshirt"></i><div className="playerName">{players[i].lastname}</div></div>);
-			}
+			temp.push(<div className="playerContainer" id={i} key={i} onClick={ev=> changePlayer(ev.target)}>{rowpl[i] && rowpl[i].lastname !== 'Add'?<i className="fas fa-tshirt noclick"></i>:<i className="fas fa-plus-circle"></i>}<div className="playerName noclick">{rowpl[i]?rowpl[i].lastname.length>6?(rowpl[i].lastname.substring(0, 5) + "..."):rowpl[i].lastname:'add'}</div></div>)
 		}
-		return row;
+		setRow(temp);
 	}
 
 	return (
@@ -18,10 +30,10 @@ const Bench = ({ players }) => {
 				bench
 			</div>
 			<div className="bench" >
-				{createRow()}
+			{row?row:''}
 			</div>
 		</div>
   );
-};
+}
 
 export default Bench;

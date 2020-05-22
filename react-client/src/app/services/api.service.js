@@ -14,20 +14,18 @@ const ApiProvider = ({children}) => {
   }
 
   const updateMember = async (data) =>{
-    let url = `${BASE_URL}/members/update`;
+    let url = `${BASE_URL}/members/${data._id}`;
     const myHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
     const options = {
-      method: 'POST',
+      method: 'put',
       headers: myHeaders,
       body: JSON.stringify(data),
-      redirect: 'follow'
     };
     const response = await fetch(`${url}`, options);
-    const member = await response.json();
-    return member;
+    return response.json();
   }
 
   const findClubs = async (query = null) => {
@@ -63,24 +61,18 @@ const ApiProvider = ({children}) => {
     return joinRequests;
   }
 
-  const destroyJoinRequest = async (memberId) => {
-    let url = `${BASE_URL}/joinRequests/delete`;
+  const destroyJoinRequestOfMember = async (memberId) => {
+    const url = `${BASE_URL}/destroyJoinRequestsOfMember/${memberId}`;
     const myHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
-    const data = {
-      memberId,
-    }
     const options = {
-      method: 'POST',
+      method: 'delete',
       headers: myHeaders,
-      body: JSON.stringify(data),
-      redirect: 'follow'
     };
     const response = await fetch(`${url}`, options);
-    const joinRequests = await response.json();
-    return joinRequests;
+    return await response.json();
   }
 
   const getJoinRequests= async () => {
@@ -102,6 +94,89 @@ const ApiProvider = ({children}) => {
     const joinRequests = await fetch(url);
     return joinRequests.json();
   }
+  const createFormation = async (data) => {
+    let url = `${BASE_URL}/formations/create`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    return await response.json();
+  }
+
+  const destroyFormation = async (formationId) => {
+    let url = `${BASE_URL}/formations/delete`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+
+    const data = {
+      formationId,
+    }
+
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const resp = await response.json();
+    return resp;
+  }
+
+  const updateFormation = async (data) => {
+    let url = `${BASE_URL}/formations/${data._id}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const options = {
+      method: 'put',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(`${url}`, options);
+    return response.json();
+  }
+
+  const createStatistic = async (data) => {
+    let url = `${BASE_URL}/statistics/create`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    return await response.json();
+  }
+
+  const updateStatistic = async (data) => {
+    let url = `${BASE_URL}/statistics/${data._id}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const options = {
+      method: 'put',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(`${url}`, options);
+    return response.json();
+  }
 
   const getStatisticsFromFormation = async (id) => {
     let url = `${BASE_URL}/statisticsfromformation/${id}`;
@@ -109,8 +184,32 @@ const ApiProvider = ({children}) => {
     return stats.json();
   }
 
+  const getMemberTypeIdByName = async (name) => {
+    let url = `${BASE_URL}/memberTypesByName/${name}`;
+    const stats = await fetch(url);
+    return stats.json();
+
+  }
+  const getEmptyMember = async () => {
+    let url = `${BASE_URL}/emptymember`;
+    const member = await fetch(url);
+    return member.json();
+  }
+
+  const getMembersFromClub = async (clubId, age) => {
+    let url = `${BASE_URL}/membersfromclub/${clubId}&${age}`;
+    const stats = await fetch(url);
+    return stats.json();
+  }
+
+  const getPlayersFromClub = async (clubId, age) => {
+    let url = `${BASE_URL}/playersfromclub/${clubId}&${age}`;
+    const stats = await fetch(url);
+    return stats.json();
+  }
+
   return (
-    <ApiContext.Provider value={{ destroyJoinRequest, findClub, findClubs, getFormationById, getFormationsFromClubAndAge, getJoinRequests, getStatisticsFromFormation, findMember,makeJoinRequest, updateMember }}>
+    <ApiContext.Provider value={{ createFormation, createStatistic, destroyFormation, destroyJoinRequestOfMember, findClub, findClubs, getEmptyMember, getFormationById, getFormationsFromClubAndAge, getJoinRequests, getMembersFromClub, getMemberTypeIdByName, getPlayersFromClub, getStatisticsFromFormation, findMember,makeJoinRequest, updateFormation, updateMember, updateStatistic}}>
       {children}
     </ApiContext.Provider>
   );

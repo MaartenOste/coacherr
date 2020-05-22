@@ -32,8 +32,8 @@ const AuthProvider = ({ children }) => {
 
   const [currentUser, setCurrentUser] = useState(verifyUserFromLocalStorage);
 
-  const signInMemberLocal = async (email, password) => {
-    const url = `${apiConfig.baseURL}/auth/signin/member`;
+  const signInLocal = async (email, password, type) => {
+    const url = `${apiConfig.baseURL}/auth/signin/${type}`;
 
     const body = {
       email,
@@ -52,7 +52,6 @@ const AuthProvider = ({ children }) => {
     };
 
     const response = await fetch(`${url}`, options);
-
     if (response.ok) {
       const user = await response.json();
       localStorage.setItem('mern:authUser', JSON.stringify(user));
@@ -64,15 +63,18 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  const signupMember = async (email,firstname,lastname,phoneNumber,password) => {
+  const signupMember = async (email,firstname,lastname,phoneNumber,password,type) => {
     let url = `${apiConfig.baseURL}/auth/signup/member`;
+
+
 
     const body = {
       "firstname": firstname,
       "lastname": lastname,
       "email": email,
       "phoneNumber": phoneNumber,
-      "password":password
+      "password":password,
+      "_memberTypeId": type,
     };
 
     const myHeaders = {
@@ -102,7 +104,7 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, signInMemberLocal, signupMember, logout }}>
+    <AuthContext.Provider value={{ currentUser, signInLocal, signupMember, logout }}>
       {children}
     </AuthContext.Provider>
   )

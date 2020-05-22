@@ -9,10 +9,10 @@ import '../components/joinclub/joinclub.scss';
 const AwaitingRequestPage = ({children}) => {
   const history = useHistory();
   const { logout } = useAuth();
-  const { destroyJoinRequest } = useApi();
+  const { destroyJoinRequestOfMember } = useApi();
 
 	const handleCancelRequest = async () => {
-		await destroyJoinRequest(JSON.parse(localStorage.getItem('mern:authUser')).id)
+		await destroyJoinRequestOfMember(JSON.parse(localStorage.getItem('mern:authUser')).id)
 		history.push(Routes.JOIN_CLUB);
 	}
 

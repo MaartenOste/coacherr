@@ -129,12 +129,33 @@ memberSchema.virtual('club', {
   justOne: true,
 });
 
+memberSchema.pre('save', function(next) {
+  const member: IMember = this as IMember;
+
+  if (!member.isModified('localProvider.password')) return next();
+
+  try {
+    return bcrypt.genSalt(10, (errSalt, salt) => {
+      if (errSalt) throw errSalt;
+
+      bcrypt.hash(member.localProvider.password, salt, (errHash, hash) => {
+        if (errHash) throw errHash;
+
+        member.localProvider.password = hash;
+        return next();
+      });
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 memberSchema.methods.comparePassword = function(
   candidatePassword: String,
   cb: Function,
 ) {
   const user = this;
-  bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
+  bcrypt.compare(candidatePassword, user.localProvider.password, (err, isMatch) => {
     if (err) return cb(err, null);
     return cb(null, isMatch);
   });

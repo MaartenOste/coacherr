@@ -22,15 +22,16 @@
 
 .cardcontainer {
 	margin-bottom: 2vh;
-
+	height: 100px;
+	background-color: $color-green-light;
+	border-radius: 7px;
+	
 	.formation {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: nowrap;
 		justify-content: space-around;
-		height: 100px;
-		background-color: $color-green-light;
-		border-radius: 7px;
+
 
 		.leftcomponent {
 			padding: 20px;
@@ -58,6 +59,32 @@
 		background-color: $color-green-light;
 		border-radius: 7px;
 		line-height: 100px;
+	}
+
+	.confirm{
+		font-size: 1rem;
+		padding: 10px;
+		text-align: center;
+		.choise{
+			margin: 5px 0;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: space-around;
+			.yes{
+				background-color: $color-green-dark;
+				border-radius: 5px;
+				padding: 2px;
+				width: 50px;
+
+			}
+			.no{
+				background-color: red;
+				border-radius: 5px;
+				padding: 2px;
+				width: 50px;
+			}
+		}
 	}
 }
 
@@ -96,5 +123,10 @@
 
 	.formationdate{
 		margin-left: 15px;
+		input{
+			max-width: 125px;
+			font-size: 0.9rem;
+		}
 	}
+	
 }

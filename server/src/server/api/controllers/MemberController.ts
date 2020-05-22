@@ -17,6 +17,7 @@ class MemberController {
     try {
       let members = await Member.find()
         .populate('membertype')
+        .populate('club')
         .sort({ _createdAt: -1 })
         .exec();
 
@@ -32,6 +33,17 @@ class MemberController {
 
       const member = await Member.findById(id)
       .populate('membertype')
+      .populate('club')
+      .exec();
+      return res.status(200).json(member);
+    } catch (err) {
+      next(err);
+    }
+  };
+  
+  emptyMember = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const member = await Member.findOne({email: 'add@email.com'})
       .exec();
       return res.status(200).json(member);
     } catch (err) {
@@ -52,6 +64,20 @@ class MemberController {
     }
   }
 
+  showPlayersFromClub = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { clubId, age } = req.params;
+      const players = await Member.find()
+      .populate('membertype')
+      .where('_clubId', clubId)
+      .where('ageCategory', age);
+      return res.status(200).json(players);
+    } catch (err) {
+      next(err);
+    }
+  }
+  
+
   destroy = async (req: Request, res: Response, next: NextFunction) => {};
 
   edit = async (req: Request, res: Response, next: NextFunction) => {};
@@ -59,51 +85,32 @@ class MemberController {
   store = async (req: Request, res: Response, next: NextFunction) => {};
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
-    const {
-      id,
-      firstname,
-      lastname,
-      email,
-      ageCategory,
-      phoneNumber,
-      extraInfo,
-      localProvider,
-      facebookProvider,
-      _clubId,
-      _memberTypeId,
-    } = req.body;
+    const { id } = req.params;
 
-    let foundMember = await Member.find().where("_id", id);
-    if (!foundMember) {
-      return res.status(403).json({ error: 'User with that id doesn\'t exist ', id });
-    }else {
-      await Member.updateOne({ "_id": id }, {$set: {
-        firstname,
-        lastname,
-        email,
-        ageCategory,
-        phoneNumber,
-        extraInfo,
-        localProvider,
-        facebookProvider,
-        _clubId,
-        _memberTypeId,
-      }});
-
-      return res.status(200).json({
-        id: id,
-        firstname,
-        lastname,
-        email,
-        ageCategory,
-        phoneNumber,
-        extraInfo,
-        localProvider,
-        facebookProvider,
-        _clubId,
-        _memberTypeId,
-      })
+    try{
+    const memberUpdate = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      ageCategory: req.body.ageCategory,
+      phoneNumber: req.body.phoneNumber,
+      extraInfo: req.body.extraInfo,
+      localProvider: req.body.localProvider,
+      facebookProvider: req.body.facebookProvider,
+      _clubId: req.body._clubId,
+      _memberTypeId: req.body._memberTypeId,
     }
+
+    const member = await Member.findOneAndUpdate({_id: id}, memberUpdate, {
+      new: true
+    }).exec();
+    if (!member) {
+      throw new NotFoundError();
+    }
+    return res.status(200).json(member);
+  } catch (err) {
+    next(err);
+  }
   };
 
   signupLocal = async (
@@ -116,6 +123,8 @@ class MemberController {
       firstname,
       lastname,
       phoneNumber,
+      password,
+      _memberTypeId,
     } = req.body;
 
     let founMember = await Member.findOne({ email: email });
@@ -128,6 +137,10 @@ class MemberController {
       lastname: lastname,
       email: email,
       phoneNumber: phoneNumber,
+      localProvider:{
+        password: password,
+      },
+      _memberTypeId
     });
 
     const member: IMember = await newMember.save();
@@ -140,6 +153,7 @@ class MemberController {
       strategy: 'local',
     });
   };
+  
 
   signInLocal = async (
     req: Request,
@@ -156,6 +170,7 @@ class MemberController {
         if (!user) {
           return next(new NotFoundError());
         }
+        
         const token = this.authService.createToken(user);
         return res.status(200).json({
           email: user.email,
