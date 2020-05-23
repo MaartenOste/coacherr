@@ -1,7 +1,7 @@
 import { default as React, Fragment, useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import * as Routes from '../routes';
-import { InputField, Header, Navbar, PreferredFoot, PreferredPosition} from '../components';
+import { InputField, Header, Navbar, PreferredPosition} from '../components';
 import {Footer } from '../components';
 import { useApi } from '../services';
 
@@ -61,8 +61,8 @@ useEffect(() => {
 		<InputField key="Last Name" label="Last Name" value={member?member.lastname:''}/>
 		<InputField key="Phone number" label="Phone number" value={member?member.phoneNumber:''}/>
 		{member && member.membertype[0].name === "Player"?<PreferredPosition value={member?member.extraInfo.position:''}/>:''}
-		<div className="basicbutton" onClick={ev => handleLeaveClub()}>leave club</div>
 		<div className="basicbutton" onClick={ev => saveSettings()}>save settings</div>
+		<div className="basicbutton leaveclub" onClick={ev => handleLeaveClub()}>leave club</div>
       </main>
       <Footer/>
     </Fragment>

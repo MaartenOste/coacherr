@@ -1,5 +1,5 @@
 import { default as React, Fragment, useCallback, useEffect, useState} from 'react';
-import { Card,Footer, Header, Navbar } from '../../components';
+import { Footer, Header } from '../../components';
 import { useHistory } from 'react-router';
 import * as Routes from '../../routes';
 import { useApi, useAuth } from '../../services';
@@ -12,7 +12,7 @@ const DashBoardPage = ({ children }) => {
   const { logout } = useAuth();
 
   const [joinRequests, setJoinRequests] = useState();
-  const [ageCategories, setAgeCategories] = useState(['U7','U9','U11','U13','U15','U17','U19','U21','Second-Team','First-Team']);
+  const [ageCategories] = useState(['U7','U9','U11','U13','U15','U17','U19','U21','Second-Team','First-Team']);
 
   const initFetch = useCallback(
 		() => {
@@ -24,7 +24,7 @@ const DashBoardPage = ({ children }) => {
 		  }
 		  fetchdata();
 		},
-		[getAllMembersFromClub],
+		[getAllMembersFromClub, getJoinRequestsForClub],
 	)
 
 	useEffect(() => {
@@ -192,18 +192,16 @@ const DashBoardPage = ({ children }) => {
             {members && members.map(member => {
               return <div className="cardcontainer" key={member._id} >
                 <div className="confirm" id={`confirm${member._id}`} style={{display: 'none'}}>Are you sure you want to remove this member from your club?<div className="choise"><div className="yes" onClick={ev => handleDeleteMember(member._id)}>YES</div><div className="no" onClick={ev => undoConfirm(member._id)}>NO</div></div></div>
-                <div className="cardtext" id={member._id}><div className='leftcomponent' ><div>{member.firstname} {member.lastname}</div><div>{member.membertype[0]?member.membertype[0].name:''}</div><div>{member.ageCategory}</div></div><div className='rightcomponent'><div className="fas fa-pencil-alt" onClick={ev => editMember(member._id)}></div><div className="fas fa-trash" onClick={ev => handleConfirmMember(member._id)}></div></div></div>
+                <div className="cardtext" id={member._id}><div className='leftcomponent' ><div>{member.firstname.length + member.lastname.length>18?member.firstname.substring(0, 1)+".":member.firstname} {member.lastname.length>15?member.lastname.substring(0,10)+"...":member.lastname}</div><div>{member.membertype[0]?member.membertype[0].name:''}</div><div>{member.ageCategory}</div></div><div className='rightcomponent'><div className="fas fa-pencil-alt" onClick={ev => editMember(member._id)}></div><div className="fas fa-trash" onClick={ev => handleConfirmMember(member._id)}></div></div></div>
               </div>
             })}
           </div>
           <div className="requestcards" id="requestcards" style={{display: 'none'}}>
-            {joinRequests && joinRequests.map(joinRequest => {
-              if (joinRequest.member.firstname !== 'a') {
+            {joinRequests && joinRequests.filter(joinRequest => joinRequest.member.firstname !== 'a').map(joinRequest => {
                 return <div className="cardcontainer" key={joinRequest._id} >
-                <div className="confirm" id={`confirm${joinRequest._id}`} style={{display: 'none'}}>Are you sure you want to remove this request?<div className="choise"><div className="yes" onClick={ev => handleDeleteRequest(joinRequest._id)}>YES</div><div className="no" onClick={ev => undoConfirm(joinRequest._id)}>NO</div></div></div>
-                <div className="cardtext" id={joinRequest._id}><div className='leftcomponent' ><div>{joinRequest.member.firstname} {joinRequest.member.lastname}</div><div>{joinRequest._memberId._memberTypeId?joinRequest._memberId._memberTypeId.name:''}</div><div>{joinRequest.member.ageCategory}</div></div><div className='rightcomponent'><div className="fas fa-check" onClick={ev => handleAcceptRequest(joinRequest._id)}></div><div className="fas fa-times" onClick={ev => handleConfirmRequest(joinRequest._id)}></div></div></div>
-              </div>
-              }
+                        <div className="confirm" id={`confirm${joinRequest._id}`} style={{display: 'none'}}>Are you sure you want to remove this request?<div className="choise"><div className="yes" onClick={ev => handleDeleteRequest(joinRequest._id)}>YES</div><div className="no" onClick={ev => undoConfirm(joinRequest._id)}>NO</div></div></div>
+                        <div className="cardtext" id={joinRequest._id}><div className='leftcomponent' ><div>{joinRequest.member.firstname} {joinRequest.member.lastname}</div><div>{joinRequest._memberId._memberTypeId?joinRequest._memberId._memberTypeId.name:''}</div><div>{joinRequest.member.ageCategory}</div></div><div className='rightcomponent'><div className="fas fa-check" onClick={ev => handleAcceptRequest(joinRequest._id)}></div><div className="fas fa-times" onClick={ev => handleConfirmRequest(joinRequest._id)}></div></div></div>
+                      </div>
             })}
           </div>
           <div className="joinrequestcards"></div>

@@ -29,9 +29,8 @@ const FormationDetailPage = ({children}) => {
 		  setAllMembersFromClub(allMembers);
 		}
 		fetchFormation();
-		setUpdatePlayers(!updatePlayers);
 	  },
-	  [getFormationById, getStatisticsFromFormation, id],
+	  [findMember, getFormationById, getStatisticsFromFormation, getMembersFromClub, id],
 	)
   
 
@@ -104,9 +103,8 @@ const FormationDetailPage = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Goalkeepers">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='goalkeeper') {
-				return             <div className="row memberrow" id={member._id} key={member._id}>
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='goalkeeper').map(member => {
+				return <div className="row memberrow" id={member._id} key={member._id}>
                 <div className="col col-6 offset-1">
                     {member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
                 </div>
@@ -117,7 +115,6 @@ const FormationDetailPage = ({children}) => {
 					<i className="fas fa-plus-circle"></i>
                 </div>
             </div>
-				}
 			})}
             </div>
             <div className="row">
@@ -126,8 +123,7 @@ const FormationDetailPage = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Defenders">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='defender') {
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='defender').map(member => {
 					return             <div className="row" id={member._id} key={member._id}>
 					<div className="col col-6 offset-1">
 						{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
@@ -139,7 +135,6 @@ const FormationDetailPage = ({children}) => {
 						<i className="fas fa-plus-circle" onClick={ev => addPlayerToFormation(member._id)}></i>
 					</div>
 				</div>
-				}
 			})}
             </div>
             <div className="row">
@@ -148,8 +143,7 @@ const FormationDetailPage = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Midfielders">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='midfielder') {
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='midfielder').map(member => {
 					return             <div className="row" id={member._id} key={member._id}>
 					<div className="col col-6 offset-1">
 						{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
@@ -161,7 +155,6 @@ const FormationDetailPage = ({children}) => {
 						<i className="fas fa-plus-circle" onClick={ev => addPlayerToFormation(member._id)}></i>
 					</div>
 				</div>
-				}
 			})}
             </div>
             <div className="row">
@@ -170,9 +163,8 @@ const FormationDetailPage = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Attackers">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='attacker') {
-					return             <div className="row" id={member._id} key={member._id}>
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='attacker').map(member => {
+					return (<div className="row" id={member._id} key={member._id}>
 					<div className="col col-6 offset-1">
 						{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
 					</div>
@@ -182,8 +174,7 @@ const FormationDetailPage = ({children}) => {
 					<div className="col col-1 add">
 						<i className="fas fa-plus-circle" onClick={ev => addPlayerToFormation(member._id)}></i>
 					</div>
-				</div>
-				}
+				</div>)
 			})}
             </div>
 		</div>

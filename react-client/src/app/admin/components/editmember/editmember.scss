@@ -20,6 +20,9 @@
 		border: 1px solid $color-blue-light;
 		color: $color-blue-light;
 	}
+	input::placeholder{
+		color: $color-blue-light;
+	}
 	select{
 		border: 1px solid $color-blue-light!important;
 		color: $color-blue-light!important;
@@ -27,5 +30,9 @@
 	.basicbutton{
 		background-color: $color-blue-light!important;
 
+	}
+
+	.dropdowncontainter{
+		margin-top: 0;
 	}
 }

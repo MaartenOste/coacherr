@@ -245,7 +245,6 @@ const ApiProvider = ({children}) => {
   }
 
   const getAllMembersFromClub = async (clubId, age = 'no', type ='no') => {
-    console.log(age, type);
     let url;
     if (age !== 'no' && type !== 'no') {
       url = `${BASE_URL}/allmembersfromclub/${clubId}?age=${age}&type=${type}`;

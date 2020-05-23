@@ -4,7 +4,6 @@ import { SignUpInputFieldListClub, BackButton } from '../components';
 import {Footer } from '../components';
 import { useAuth, useApi } from '../services';
 import * as Routes from '../routes';
-
 import '../components/universalComponents/universal.scss';
 
 const SignUpClubPage = ({children}) => {
@@ -45,12 +44,14 @@ const SignUpClubPage = ({children}) => {
 
   return (
     <Fragment>
+      <div className="signupclub">
       <main>
         <BackButton />
         <SignUpInputFieldListClub />
         <div className="basicbutton" onClick={ev => initSignUpClub()}>sign up</div>
       </main>
       <Footer/>
+      </div>
     </Fragment>
   );
 };

@@ -1,7 +1,7 @@
 import { default as React, Fragment, useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import * as Routes from '../../routes';
-import { Footer, InputField, Header, Navbar, PreferredFoot, PreferredPosition, BackButton} from '../../components';
+import { ChooseAge, Footer, InputField, Header, PreferredPosition, BackButton} from '../../components';
 import { useApi, useAuth } from '../../services';
 import '../components/editmember/editmember.scss';
 
@@ -20,7 +20,7 @@ const EditMemberPage = ({children}) => {
 	  }
 	  fetchdata();
 	},
-	[findMember],
+	[findMember, id],
 )
 
 useEffect(() => {
@@ -32,6 +32,7 @@ useEffect(() => {
 		memberUpdate.firstname = document.getElementById('First Name').value;
 		memberUpdate.lastname = document.getElementById('Last Name').value;
 		memberUpdate.phoneNumber = document.getElementById('Phone number').value;
+		memberUpdate.ageCategory = document.getElementById('age').value;
 		if (member && member.membertype[0].name === "Player") {
 			memberUpdate.extraInfo = {
 				"position": document.getElementById('prefpos').value,
@@ -71,6 +72,7 @@ useEffect(() => {
 		<InputField key="First Name" label="First Name" value={member?member.firstname:''}/>
 		<InputField key="Last Name" label="Last Name" value={member?member.lastname:''}/>
 		<InputField key="Phone number" label="Phone number" value={member?member.phoneNumber:''}/>
+		<ChooseAge />
 		{member && member.membertype[0].name === "Player"?<PreferredPosition value={member?member.extraInfo.position:''}/>:''}
 		<div className="basicbutton" onClick={ev => saveSettings()}>save settings</div>
       </main>

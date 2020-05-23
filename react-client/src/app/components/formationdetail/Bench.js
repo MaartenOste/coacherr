@@ -2,10 +2,8 @@ import { default as React, useEffect,useState} from 'react';
 
 const Bench = ({amount, arrayOfPlayers, update}) => {
 	const [row, setRow] = useState([]);
-	const [players, setPlayers] = useState(arrayOfPlayers);
 
 	const changePlayer = (i) => {
-		let pl = JSON.parse(sessionStorage.getItem('players'));
 		sessionStorage.setItem('PlayerToSwap', i.id);
 		document.getElementById('selectPlayer').style.display = 'block';
 		document.getElementById('detailPage').style.display = 'none';

@@ -2,7 +2,7 @@ import { default as React } from 'react';
 
 import './Home.scss';
 
-const Title = ({}) => {
+const Title = ({children}) => {
 	return (
 		<div className='title'>
 			<div className="welcome">Welcome to</div> 

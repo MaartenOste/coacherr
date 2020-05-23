@@ -1,13 +1,12 @@
 import { default as React, Fragment, useCallback, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import * as Routes from '../../routes';
-import { BackButton, Footer, InputField, Header, Navbar, PreferredFoot, PreferredPosition} from '../../components';
+import { BackButton, Footer, InputField, Header} from '../../components';
 import { useApi, useAuth } from '../../services';
 import '../components/editmember/editmember.scss';
 
 const ClubSettingsPage = ({children}) => {
   const history = useHistory();
-  const { id } = useParams();
   const { logout } = useAuth();
   const [club, setClub] = useState();
   const { findClub, updateClub } = useApi();

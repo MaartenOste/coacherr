@@ -1,8 +1,6 @@
 import { default as React, Fragment} from 'react';
 import { useHistory } from 'react-router';
 import * as Routes from '../routes';
-import { Link } from 'react-router-dom';
-import { Button, BackButton, InputField} from '../components';
 import {Footer } from '../components';
 import { useApi, useAuth } from '../services';
 import {PreferredFoot, PreferredPosition} from '../components/playerinfo';
@@ -22,7 +20,7 @@ const PayerInfoPage = ({children}) => {
       "position": document.getElementById('prefpos').value,
       "foot": document.querySelector('input[name="preffoot"]:checked').value
     }
-    const ret = await updateMember(member);
+    await updateMember(member);
 	  history.push(Routes.JOIN_CLUB);
   }
 

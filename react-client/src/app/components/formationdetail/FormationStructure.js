@@ -36,7 +36,7 @@ const FormationStructure = ({edit,  update}) => {
 
 	useEffect(() => {
 		createStructure();
-	}, [ update]);
+	}, [update]);
 
 	return (
 		<div className="formationStructureContainer" >

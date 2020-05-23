@@ -7,7 +7,7 @@ import * as Routes from '../routes';
 const NewFormation = ({children}) => {
 	const { id } = useParams();
 	const history = useHistory();
-	const { findMember, getFormationById, getMembersFromClub,  getEmptyMember, createFormation, createStatistic } = useApi();
+	const { findMember, getMembersFromClub, getEmptyMember, createFormation, createStatistic } = useApi();
 	const [member, setMember] = useState();
 	const [ formation, setFormation] = useState([]);
 	const [ allMembersFromClub, setAllMembersFromClub] = useState();
@@ -16,16 +16,16 @@ const NewFormation = ({children}) => {
 	const initFetch = useCallback(
 	  () => {
 		const fetchFormation = async () => {
+		  sessionStorage.setItem('struct', '4-3-3');
 		  const tempmember = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
 		  setMember(tempmember);
-		  sessionStorage.setItem('struct', '4-3-3');
 		  const allMembers = await getMembersFromClub(tempmember._clubId, tempmember.ageCategory);
 		  setAllMembersFromClub(allMembers);
 		}
 		fetchFormation();
 		setUpdatePlayers(!updatePlayers);
 	  },
-	  [getFormationById, id],
+	  [ getMembersFromClub, findMember],
 	)
   
 
@@ -34,8 +34,8 @@ const NewFormation = ({children}) => {
 	}, [initFetch, id]);
 
 	const timestampToDate = (date) => {
-		const temp = new Date(date*1000);
-		return `${temp.getDate()}/${temp.getMonth()+1}/${temp.getFullYear()}`;
+		const temp = new Date(date);
+		return `${temp.getFullYear()}-${('0'+ (temp.getMonth()+1).toString()).slice(-2)}-${('0'+ (temp.getDate()).toString()).slice(-2)}`;
 	}
 
 	
@@ -109,20 +109,18 @@ const NewFormation = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Goalkeepers">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='goalkeeper') {
-				return             <div className="row memberrow" id={member._id} key={member._id}>
-                <div className="col col-6 offset-1">
-                    {member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
-                </div>
-                <div className="col col-3">
-                    {member.extraInfo.foot}
-                </div>
-                <div className="col col-1 add" onClick={ev => addPlayerToFormation(member._id)}>
-					<i className="fas fa-plus-circle"></i>
-                </div>
-            </div>
-				}
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='goalkeeper').map(member => {
+					return <div className="row memberrow" id={member._id} key={member._id}>
+								<div className="col col-6 offset-1">
+									{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
+								</div>
+								<div className="col col-3">
+									{member.extraInfo.foot}
+								</div>
+								<div className="col col-1 add" onClick={ev => addPlayerToFormation(member._id)}>
+									<i className="fas fa-plus-circle"></i>
+								</div>
+							</div>
 			})}
             </div>
             <div className="row">
@@ -131,8 +129,7 @@ const NewFormation = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Defenders">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='defender') {
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='defender').map(member => {
 					return             <div className="row" id={member._id} key={member._id}>
 					<div className="col col-6 offset-1">
 						{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
@@ -144,7 +141,6 @@ const NewFormation = ({children}) => {
 						<i className="fas fa-plus-circle" onClick={ev => addPlayerToFormation(member._id)}></i>
 					</div>
 				</div>
-				}
 			})}
             </div>
             <div className="row">
@@ -153,8 +149,7 @@ const NewFormation = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Midfielders">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='midfielder') {
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='goalkeeper').map(member => {
 					return             <div className="row" id={member._id} key={member._id}>
 					<div className="col col-6 offset-1">
 						{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
@@ -166,7 +161,6 @@ const NewFormation = ({children}) => {
 						<i className="fas fa-plus-circle" onClick={ev => addPlayerToFormation(member._id)}></i>
 					</div>
 				</div>
-				}
 			})}
             </div>
             <div className="row">
@@ -175,8 +169,7 @@ const NewFormation = ({children}) => {
 				</div>
             </div>
             <div className="playerContainer" id="Attackers">
-			{allMembersFromClub && allMembersFromClub.map(member => {
-				if (member.extraInfo && member.extraInfo.position ==='attacker') {
+			{allMembersFromClub && allMembersFromClub.filter(member => member.extraInfo && member.extraInfo.position ==='goalkeeper').map(member => {
 					return             <div className="row" id={member._id} key={member._id}>
 					<div className="col col-6 offset-1">
 						{member.firstname.substr(0,1)}. {member.lastname.length>10?member.lastname.substr(0,9) + "...":member.lastname}
@@ -188,7 +181,6 @@ const NewFormation = ({children}) => {
 						<i className="fas fa-plus-circle" onClick={ev => addPlayerToFormation(member._id)}></i>
 					</div>
 				</div>
-				}
 			})}
             </div>
 		</div>

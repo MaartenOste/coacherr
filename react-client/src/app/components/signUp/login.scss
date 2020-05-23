@@ -1,3 +1,6 @@
+@import '../../_sass/abstracts/variables';
+
+
 .InputFieldList{
 	margin-top: 0px;
 }
@@ -9,5 +12,26 @@
 	font-size: 15px;
 	.registerlink{
 		margin-left: 1vw;
+	}
+}
+
+.signupclub{
+	input{
+		border: 1px solid $color-blue-light;
+		color: $color-blue-light;
+	}
+	input::placeholder{
+		color: $color-blue-light;
+	}
+
+	.backbutton{
+		color: $color-blue-light;
+	}
+	.basicbutton{
+		background-color: $color-blue-light;
+	}
+	footer{
+		background-color: $color-blue-light;
+
 	}
 }

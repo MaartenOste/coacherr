@@ -64,7 +64,6 @@ class FormationController {
     if (!formation) {
       throw new NotFoundError();
     }
-    console.log(formation);
     
     return res.status(200).json(formation);
   } catch (err) {
@@ -84,7 +83,6 @@ class FormationController {
       });
 
       const formation: IFormation = await newFormtation.save();
-      console.log(formation);
       
       return res.status(200).json(formation);
     } catch (err) {

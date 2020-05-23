@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Redirect, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
 import { AdminPage } from './admin/pages'
 import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, MemberSettingsPage, NewFormation, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpClubPage, SignUpMemberPage} from './pages';
 import { ErrorLayout } from './layouts';

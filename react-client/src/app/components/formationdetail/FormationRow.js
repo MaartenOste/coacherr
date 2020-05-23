@@ -4,15 +4,10 @@ const FormationRow = ({amount, rownr, start, update}) => {
 	const [row, setRow] = useState([]);
 
 	const changePlayer = (i) => {
-		let pl = JSON.parse(sessionStorage.getItem('players'));
 		sessionStorage.setItem('PlayerToSwap', i.id);
 		document.getElementById('selectPlayer').style.display = 'block';
 		document.getElementById('detailPage').style.display = 'none';
 	}
-
-	useEffect(() => {
-		createRow();
-	}, [update]);
 
 	const createRow = () => {
 		const rowpl = JSON.parse(sessionStorage.getItem('players'));
@@ -25,6 +20,10 @@ const FormationRow = ({amount, rownr, start, update}) => {
 		}
 		setRow(temp);
 	}
+
+	useEffect(() => {
+		createRow();
+	}, [update]);
 
 	return (
 		<div className="formationRow" id={rownr}>

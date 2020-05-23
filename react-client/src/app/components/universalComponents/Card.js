@@ -1,11 +1,11 @@
 import { default as React } from 'react';
-import { useHistory, Route } from 'react-router';
+import { useHistory } from 'react-router';
 import * as Routes from '../../routes';
 import { useApi } from '../../services';
 
 import './universal.scss';
 
-const Card = ({member, edit, data, id, onClick}) => {
+const Card = ({member, edit, data, id}) => {
 	const history = useHistory();
 	const { destroyFormation } = useApi();
 
