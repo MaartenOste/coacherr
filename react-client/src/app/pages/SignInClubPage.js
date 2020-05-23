@@ -2,17 +2,16 @@ import { default as React, Fragment, useState, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import * as Routes from '../routes';
 import { Link } from 'react-router-dom';
-import { useApi } from '../services';
-import { BackButton, InputField} from '../components';
-import {Footer } from '../components';
-import { useAuth } from '../services';
-
+import { useApi, useAuth } from '../services';
+import { BackButton, Footer, InputField, Title} from '../components';
+import '../components/singinClub/signInClub.scss'
 
 const SignInClubPage = ({children}) => {
   const history = useHistory();
   const { signInLocal } = useAuth();
   const [currentUser, setCurrentUser] = useState();
-  const { findMember } = useApi();
+  const { findClub } = useApi();
+
 
 	const initSignInMember = async (ev) => {
 		ev.preventDefault();
@@ -23,23 +22,26 @@ const SignInClubPage = ({children}) => {
     try {
       const user = await signInLocal(data.email, data.password, 'club');
       setCurrentUser(user);
-      const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
-      if (!member.extraInfo && member.membertype[0].name === 'Player') {
-        history.push(Routes.PLAYER_INFO);
-      } else if (!member._clubId){
-        history.push(Routes.JOIN_CLUB);
-      } else {
-        history.push(Routes.FORMATIONS);
+      console.log(JSON.parse(localStorage.getItem('mern:authUser')).id);
+      
+      const club = await findClub(JSON.parse(localStorage.getItem('mern:authUser')).id);
+
+      if(club){
+        history.push(Routes.BACKOFFICE_LANDING);
       }
     } catch (error) {
       document.getElementById('wrongCredentials').style.display = 'block';
     }
-    };
+  };
 
   return (
     <Fragment>
-      <main>
+      <div className="singInClubPage">
+        <div className="contentconainer">
         <BackButton />
+        <div className='title'>
+          <div className="welcome">Login As Club</div> 
+        </div>
         <InputField label="email"/>
         <InputField type="password" label="password"/>
         <div id="wrongCredentials" style={{display: 'none', color: 'red', fontSize: '1rem'}}>Username or password incorrect.</div>
@@ -50,8 +52,9 @@ const SignInClubPage = ({children}) => {
           </Link >
         </div>
         <div className="basicbutton" onClick={ev => initSignInMember(ev) }>sign in</div>
-      </main>
-      <Footer/>
+        </div>
+        <Footer/>
+      </div>
     </Fragment>
   );
 };

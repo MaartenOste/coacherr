@@ -42,9 +42,19 @@ class AuthService {
             const member = await Member.findOne({
               email: email,
             });
-
             if (!member) {
-              return done(null, false, { message: 'No member by that email' });
+              const club = await Club.findOne({email: email});
+              if(!club){
+                return done(null, false, { message: 'No member by that email' });
+              }
+              else {
+                return club.comparePassword(password , (error: Error, isMatch: boolean) => {
+                  if (!isMatch) {
+                    return done(null, false);
+                  }
+                  return done(null, club);
+                });
+              }
             }
             
             return member.comparePassword(password , (error: Error, isMatch: boolean) => {
@@ -94,24 +104,6 @@ class AuthService {
       expiresIn: 60 * 120,
     });
   }
-
-/*
-  public checkIsInRole = (...roles: Array<string>) => (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    if (!req.user) {
-      next(new ForbiddenError());
-    }
-
-    const hasRole = roles.find(role => (req.member as IMember).role === role);
-    if (!hasRole) {
-      next(new UnauthorizedError());
-    }
-
-    return next();
-  };*/
 }
 
 export default AuthService;

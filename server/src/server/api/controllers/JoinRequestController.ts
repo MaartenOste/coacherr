@@ -6,6 +6,7 @@ class JoinRequestController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let joinRequests = await JoinRequest.find()
+        .populate('member')
         .sort({ _createdAt: -1 })
         .exec();
 
@@ -18,7 +19,9 @@ class JoinRequestController {
   show = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const joinRequest = await JoinRequest.findById(id).exec();
+      const joinRequest = await JoinRequest.findById(id)
+      .populate('member')
+      .exec();
       return res.status(200).json(joinRequest);
     } catch (err) {
       next(err);
@@ -29,6 +32,24 @@ class JoinRequestController {
     try {
       const { id } = req.params;
       const joinRequest = await JoinRequest.findOneAndDelete({_memberId: id}).exec();
+      return res.status(200).json(joinRequest);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  joinRequestsForClub = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const joinRequest = await JoinRequest.find({_clubId: id})
+      .populate('member')
+      .populate({
+        path : '_memberId',
+        populate : {
+          path : '_memberTypeId'
+        }
+      })
+      .exec();
       return res.status(200).json(joinRequest);
     } catch (err) {
       next(err);

@@ -34,12 +34,14 @@ const joinRequestSchema: Schema = new Schema(
 joinRequestSchema.virtual('id').get(function(this: IJoinRequest) {
   return this._id;
 });
+
 joinRequestSchema.virtual('member', {
   ref: 'Member',
-  localField: '_membersId',
+  localField: '_memberId',
   foreignField: '_id',
   justOne: true,
 });
+
 joinRequestSchema.virtual('club', {
   ref: 'Club',
   localField: '_clubId',

@@ -56,9 +56,10 @@ class StatisticController {
     try{
     const statisticUpdate = {
       score: req.body.score,
-      _formationId: req.body._formationId
+      _formationId: req.body._formationId,
+      _modifiedAt: new Date().getTime()
     }
-    
+
     const statistic = await Statistic.findOneAndUpdate({_id: id}, statisticUpdate, {
       new: true
     }).exec();

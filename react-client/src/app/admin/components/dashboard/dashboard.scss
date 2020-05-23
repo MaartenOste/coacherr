@@ -1,0 +1,159 @@
+@import '../../../_sass/abstracts/variables';
+
+.page{
+	.page-header{
+		background-color: $color-blue-light;
+	}
+
+	.formationdetailtitle{
+		margin-left: 10vw;
+		.pagetitle{
+		color: $color-blue-dark;
+		}
+	}
+	
+	.navigation {
+		margin: 0 10vw;
+		.logoutbutton{
+			background-color: $color-blue-light;
+		}
+	}
+	.dashboardoptionlist{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		width: 100%;
+		background-color: $color-blue-dark;
+		padding: 2px;
+		margin-bottom: 2vh;
+		.dashboardoption{
+			color: white;
+			line-height: 40px;
+			margin-left: 10vw;
+			padding: 5px;
+		}
+		.selectedoption{
+			background-color: white;
+			color: black;
+			border-radius: 5px;
+
+		}
+	}
+	.showfilters{
+		background-color: $color-blue-dark;
+		width: 80vw;
+		text-align: center;
+		margin: 0 10vw 2vh 10vw;
+		color: white;
+
+	}
+	.filtercontainer{
+		padding: 0 5vw 0 10vw;
+		margin-bottom: 3vh;
+		background-color: $color-blue-light;
+		height: 150px;
+		.selectors{
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			height: 75px;
+			.fa-times{
+				padding-top: 20px;
+				font-size: 30px;
+			}
+			.filter{
+				margin: auto 0;
+	
+				.dropdownlist{
+					width: 130px;
+					line-height: 100px;
+				}
+			}
+		}
+		.basicbutton{
+			margin: 2vh 0;
+			width: 80vw;
+			background-color: $color-blue-dark;
+			color: white;
+		}
+	}
+
+	.dashboardcontentcontainer{
+		min-height: 30vh;
+		.cardcontainer {
+			margin: 0 10vw 2vh 10vw;
+			height: 100px;
+			background-color: $color-blue-light;
+			border-radius: 7px;
+
+			.cardtext{
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				.leftcomponent {
+					width: 70%;
+					padding: 5px 0 0 10px;
+				}
+		
+				.rightcomponent {
+					min-width: 12vw;
+					display: flex;
+					justify-content: space-between;
+		
+					.fas {
+						height: 100%;
+						line-height: 100px;
+						font-size: 25px;
+					}
+
+					.fa-check{
+						color: $color-green-dark;
+					}
+					.fa-pencil-alt{
+						color: $color-green-dark;
+					}
+					.fa-times{
+						margin-left: 20px;
+						color: red;
+					}
+					.fa-trash{
+						margin-left: 20px;
+						color: red;
+					}
+				}
+			}
+		}
+	}
+	
+		.confirm{
+			font-size: 1rem;
+			padding: 10px;
+			text-align: center;
+			.choise{
+				margin: 5px 0;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				justify-content: space-around;
+				.yes{
+					background-color: $color-green-dark;
+					border-radius: 5px;
+					padding: 2px;
+					width: 50px;
+	
+				}
+				.no{
+					background-color: red;
+					border-radius: 5px;
+					padding: 2px;
+					width: 50px;
+				}
+			}
+		
+	}
+
+	footer{
+		background-color: $color-blue-light;
+	}
+}

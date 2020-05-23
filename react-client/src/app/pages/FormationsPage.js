@@ -1,6 +1,5 @@
 import { default as React, Fragment, useCallback, useEffect, useState} from 'react';
-import { Card,Header, Navbar } from '../components';
-import {Footer } from '../components';
+import { Card,Footer, Header, Navbar } from '../components';
 import { useApi } from '../services';
 import * as Routes from '../routes';
 import { useHistory } from 'react-router';
@@ -43,7 +42,7 @@ const AwaitingRequestPage = ({children}) => {
       <main>
 		<Navbar backbutton={false}/>
 		<div className="formationdetailtitle">
-		<div className="pagetitle"><div>Formations {formations?(formations[0].ageCategory):''}</div> {member && member.membertype[0].name==='Coach'?<div onClick={ev => handleNewFormation()}><i className="fas fa-plus-circle" ></i></div>:''}</div>
+		<div className="pagetitle"><div>Formations {formations && formations[0]?formations[0].ageCategory:''}</div> {member && member.membertype[0].name==='Coach'?<div onClick={ev => handleNewFormation()}><i className="fas fa-plus-circle" ></i></div>:''}</div>
 		</div>		
 		{formations && formations.map(formation => {
 			return <Card member={true} edit={member?member.membertype[0].name==='Coach': false} data={formation} key={formation._id} id={formation._id}/>

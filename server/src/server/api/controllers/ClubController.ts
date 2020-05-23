@@ -16,7 +16,7 @@ class ClubController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let clubs = await Club.find()
-        .sort({ _createdAt: -1 })
+        .sort({ name: -1 })
         .exec();
 
       return res.status(200).json(clubs);
@@ -34,6 +34,35 @@ class ClubController {
     } catch (err) {
       next(err);
     }
+  };
+
+  update = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+    const { id } = req.params;
+
+    try{
+    const clubUpdate = {
+      _id: id,
+      email: req.body.email,
+      localProvider: req.body.localProvider,
+      _modifiedAt: new Date().getTime(),
+      name: req.body.name,
+      clubNumber: req.body.clubNumber,
+      phoneNumber: req.body.phoneNumber,
+      slug: req.body.slug
+    }
+
+    const club = await Club.findOneAndUpdate({_id: id}, clubUpdate, {
+      new: true
+    }).exec();
+
+
+    if (!club) {
+      throw new NotFoundError();
+    }
+    return res.status(200).json(club);
+  } catch (err) {
+    next(err);
+  }
   };
 
   signupLocal = async (
@@ -76,17 +105,22 @@ class ClubController {
       'local',
       { session: this.config.auth.jwt.session },
       (err, user, info) => {
+        console.log(user);
+        
         if (err) {
           return next(err);
         }
         if (!user) {
           return next(new NotFoundError());
         }
+        
         const token = this.authService.createToken(user);
         return res.status(200).json({
           email: user.email,
+          id: user._id,
           token: `${token}`,
           strategy: 'local',
+          type: 'Club',
         });
       },
     )(req, res, next);

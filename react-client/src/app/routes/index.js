@@ -14,9 +14,7 @@ export const MEMBER_SETTINGS = '/member-settings'
 
 export const AUTH_SIGN_IN_CLUB = '/auth/signin-club';
 export const AUTH_SIGNUP_CLUB = '/auth/signup-club';
-
-export const BACKOFFICE_LANDING = '/admin';
-export const BACKOFFICE_DASHBOARD = '/admin/dashboard';
-export const BACKOFFICE_POSTS = '/admin/posts';
-export const BACKOFFICE_POSTS_CREATE = '/admin/posts/create';
-export const BACKOFFICE_POSTS_EDIT = '/admin/posts/:id/edit';
+export const BACKOFFICE_LANDING = '/club';
+export const BACKOFFICE_DASHBOARD = '/club/dashboard';
+export const EDIT_MEMBER = '/club/edit-member/:id';
+export const CLUB_SETTINGS = '/club/club-settings';

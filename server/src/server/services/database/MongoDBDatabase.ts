@@ -283,8 +283,8 @@ class MongoDBDatabase {
       'U17',
       'U19',
       'U21',
-      'Second Team',
-      'First Team',
+      'Second-Team',
+      'First-Team',
     ];
     const positions = ['doelman', 'verdediger', 'middevelder', 'aanvaller'];
     const feet = ['left', 'right'];
@@ -459,8 +459,8 @@ class MongoDBDatabase {
       'U17',
       'U19',
       'U21',
-      'Second Team',
-      'First Team',
+      'Second-Team',
+      'First-Team',
     ];
     for (let j = 0; j < this.clubs.length; j++) {
       for (let k = 0; k < agecategories.length; k++) {

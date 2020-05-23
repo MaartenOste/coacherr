@@ -1,24 +1,21 @@
 import React, { Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import * as Routes from '../../routes';
 import DashboardPage from './DashboardPage';
-import PostCreatePage from './PostCreatePage';
-import PostEditPage from './PostEditPage';
-import PostsPage from './PostsPage';
+import EditMemberPage from './EditMemberPage';
+import ClubSettingsPage from './ClubSettingsPage';
 
 const AdminPage = ({children}) => {
 
   return (
     <Fragment>
       <Route exact path={Routes.BACKOFFICE_LANDING}>
-        <Redirect to={Routes.BACKOFFICE_DASHBOARD} />
+        <Redirect to={Routes.BACKOFFICE_DASHBOARD} component={DashboardPage}/>
       </Route>
-      <Route exact path={Routes.BACKOFFICE_DASHBOARD} component={DashboardPage} />
-      <Route exact path={Routes.BACKOFFICE_POSTS} component={PostsPage} />
-      <Route exact path={Routes.BACKOFFICE_POSTS_CREATE} component={PostCreatePage} />
-      <Route exact path={Routes.BACKOFFICE_POSTS_EDIT} component={PostEditPage} />     
+      <Route exact path={Routes.BACKOFFICE_DASHBOARD} component={DashboardPage}/>
+      <Route exact path={Routes.EDIT_MEMBER} component={EditMemberPage}/>
+      <Route exact path={Routes.CLUB_SETTINGS} component={ClubSettingsPage}/>
     </Fragment>
   );
 };

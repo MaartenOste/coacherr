@@ -20,8 +20,6 @@ const NewFormation = ({children}) => {
 		const fetchFormation = async () => {
 		  const tempmember = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
 		  setMember(tempmember);
-		  console.log(tempmember);
-		  
 		  sessionStorage.setItem('struct', '4-3-3');
 		  const allMembers = await getMembersFromClub(tempmember._clubId, tempmember.ageCategory);
 		  setStructure('4-3-3');
@@ -56,8 +54,6 @@ const NewFormation = ({children}) => {
 		let ids= [];
 		const emptyMember = await getEmptyMember();
 		for (let i = 0; i < 16; i++) {
-			console.log(JSON.parse(sessionStorage.getItem('players'))[i]);
-			
 			if (JSON.parse(sessionStorage.getItem('players'))[i] !== null) {
 				ids[i] = JSON.parse(sessionStorage.getItem('players'))[i];
 			} else {
@@ -67,7 +63,6 @@ const NewFormation = ({children}) => {
 
 		let date = new Date(document.getElementById('formationdate').value).getTime()/1000;
 		if (isNaN(date)) {
-			console.log('in date');
 			date = new Date().getTime()/1000;
 		}
 

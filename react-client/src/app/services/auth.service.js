@@ -39,7 +39,6 @@ const AuthProvider = ({ children }) => {
       email,
       password
     };
-
     const myHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -65,8 +64,6 @@ const AuthProvider = ({ children }) => {
 
   const signupMember = async (email,firstname,lastname,phoneNumber,password,type) => {
     let url = `${apiConfig.baseURL}/auth/signup/member`;
-
-
 
     const body = {
       "firstname": firstname,

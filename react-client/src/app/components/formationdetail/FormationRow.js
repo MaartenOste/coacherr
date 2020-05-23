@@ -20,7 +20,7 @@ const FormationRow = ({amount, rownr, start, update}) => {
 		let temp = [];
 
 		for (let i = 0; i < parseInt(amount); i++) {
-			temp.push(<div className="playerContainer" id={playerIndex} key={playerIndex} onClick={ev=> changePlayer(ev.target)}>{rowpl[playerIndex] && rowpl[playerIndex].lastname !== 'Add'?<i className="fas fa-tshirt noclick"></i>:<i className="fas fa-plus-circle noclick"></i>}<div className="playerName noclick">{rowpl[playerIndex]?rowpl[playerIndex].lastname.length>6?(rowpl[playerIndex].lastname.substring(0, 5) + "..."):rowpl[playerIndex].lastname:'add'}</div></div>)
+			temp.push(<div className="playerContainer" id={playerIndex} key={playerIndex} onClick={ev=> changePlayer(ev.target)}>{rowpl[playerIndex] && rowpl[playerIndex].lastname && rowpl[playerIndex].lastname !== 'Add'?<i className="fas fa-tshirt noclick"></i>:<i className="fas fa-plus-circle noclick"></i>}<div className="playerName noclick">{rowpl[playerIndex] && rowpl[playerIndex].lastname?rowpl[playerIndex].lastname.length>6?(rowpl[playerIndex].lastname.substring(0, 5) + "..."):rowpl[playerIndex].lastname:'add'}</div></div>)
 			playerIndex+=1;
 		}
 		setRow(temp);

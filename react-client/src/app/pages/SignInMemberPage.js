@@ -39,6 +39,9 @@ const SignInMemberPage = ({children}) => {
     <Fragment>
       <main>
         <BackButton />
+        <div className='title'>
+          <div className="welcome">Login As Member</div> 
+        </div>
         <InputField label="email"/>
         <InputField type="password" label="password"/>
         <div id="wrongCredentials" style={{display: 'none', color: 'red', fontSize: '1rem'}}>Username or password incorrect.</div>

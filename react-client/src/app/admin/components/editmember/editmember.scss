@@ -1,0 +1,31 @@
+@import '../../../_sass/abstracts/variables';
+
+.editmemberpage{
+	.page-header{
+		background-color: $color-blue-light;
+	}
+	.backbutton{
+		color: $color-blue-light;
+	}
+	.logoutbutton{
+		background-color: $color-blue-light!important;
+	}
+
+	.formationdetailtitle{
+		.pagetitle{
+		color: $color-blue-dark;
+		}
+	}
+	input{
+		border: 1px solid $color-blue-light;
+		color: $color-blue-light;
+	}
+	select{
+		border: 1px solid $color-blue-light!important;
+		color: $color-blue-light!important;
+	}
+	.basicbutton{
+		background-color: $color-blue-light!important;
+
+	}
+}

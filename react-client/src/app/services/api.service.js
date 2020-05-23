@@ -40,6 +40,21 @@ const ApiProvider = ({children}) => {
     return response.json();
   }
 
+  const updateClub = async (data) =>{
+    let url = `${BASE_URL}/clubs/${data._id}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const options = {
+      method: 'put',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(`${url}`, options);
+    return response.json();
+  }
+
   const makeJoinRequest = async (memberId, clubId) => {
     let url = `${BASE_URL}/joinRequests/create`;
     const myHeaders = {
@@ -75,6 +90,27 @@ const ApiProvider = ({children}) => {
     return await response.json();
   }
 
+  const destroyJoinRequestById = async (id) => {
+    const url = `${BASE_URL}/joinRequests/${id}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    const options = {
+      method: 'delete',
+      headers: myHeaders,
+    };
+    const response = await fetch(`${url}`, options);
+    return await response.json();
+  }
+
+  const getJoinRequestsById = async (id) => {
+    let url = `${BASE_URL}/joinRequests/${id}`;
+    const joinRequests = await fetch(url);
+
+    return joinRequests.json();
+  }
+
   const getJoinRequests= async () => {
     let url = `${BASE_URL}/joinRequests`;
     const joinRequests = await fetch(url);
@@ -82,17 +118,23 @@ const ApiProvider = ({children}) => {
     return joinRequests.json();
   }
 
+  const getJoinRequestsForClub = async (id) => {
+    let url = `${BASE_URL}/joinRequestsForClub/${id}`;
+    const joinRequests = await fetch(url);
+    return joinRequests.json();
+  }
+
   const getFormationsFromClubAndAge = async (clubId, age) => {
     let url = `${BASE_URL}/formations/${clubId}&${age}`;
-    const joinRequests = await fetch(url);
+    const formations = await fetch(url);
 
-    return joinRequests.json();
+    return formations.json();
   }
 
   const getFormationById = async (id) => {
     let url = `${BASE_URL}/formations/${id}`;
-    const joinRequests = await fetch(url);
-    return joinRequests.json();
+    const formation = await fetch(url);
+    return formation.json();
   }
   const createFormation = async (data) => {
     let url = `${BASE_URL}/formations/create`;
@@ -122,7 +164,7 @@ const ApiProvider = ({children}) => {
     }
 
     const options = {
-      method: 'POST',
+      method: 'delete',
       headers: myHeaders,
       body: JSON.stringify(data),
       redirect: 'follow'
@@ -202,14 +244,25 @@ const ApiProvider = ({children}) => {
     return stats.json();
   }
 
-  const getPlayersFromClub = async (clubId, age) => {
-    let url = `${BASE_URL}/playersfromclub/${clubId}&${age}`;
+  const getAllMembersFromClub = async (clubId, age = 'no', type ='no') => {
+    console.log(age, type);
+    let url;
+    if (age !== 'no' && type !== 'no') {
+      url = `${BASE_URL}/allmembersfromclub/${clubId}?age=${age}&type=${type}`;
+    } else if (age !== 'no'){
+      url = `${BASE_URL}/allmembersfromclub/${clubId}?age=${age}`;
+    }else if (type !== 'no') {
+      url = `${BASE_URL}/allmembersfromclub/${clubId}?type=${type}`;
+    }else {
+      url = `${BASE_URL}/allmembersfromclub/${clubId}`;
+    }
+
     const stats = await fetch(url);
     return stats.json();
   }
 
   return (
-    <ApiContext.Provider value={{ createFormation, createStatistic, destroyFormation, destroyJoinRequestOfMember, findClub, findClubs, getEmptyMember, getFormationById, getFormationsFromClubAndAge, getJoinRequests, getMembersFromClub, getMemberTypeIdByName, getPlayersFromClub, getStatisticsFromFormation, findMember,makeJoinRequest, updateFormation, updateMember, updateStatistic}}>
+    <ApiContext.Provider value={{ createFormation, createStatistic, destroyFormation, destroyJoinRequestById, destroyJoinRequestOfMember, findClub, findClubs, getEmptyMember, getFormationById, getFormationsFromClubAndAge, getJoinRequests, getJoinRequestsById, getJoinRequestsForClub, getMembersFromClub, getMemberTypeIdByName, getAllMembersFromClub, getStatisticsFromFormation, findMember,makeJoinRequest, updateClub, updateFormation, updateMember, updateStatistic}}>
       {children}
     </ApiContext.Provider>
   );

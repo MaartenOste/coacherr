@@ -3,6 +3,7 @@ import { IMember,IMemberType, Member, MemberType } from '../../models/mongoose';
 
 import { AuthService, IConfig } from '../../services';
 import { NotFoundError } from '../../utilities';
+import { isNull } from 'util';
 
 class MemberController {
   private authService: AuthService;
@@ -64,19 +65,41 @@ class MemberController {
     }
   }
 
-  showPlayersFromClub = async (req: Request, res: Response, next: NextFunction) => {
+  showAllMembersFromClub = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { clubId, age } = req.params;
-      const players = await Member.find()
-      .populate('membertype')
-      .where('_clubId', clubId)
-      .where('ageCategory', age);
+      const { clubId } = req.params;
+      const { age, type } = req.query;
+      let players;
+      if (age || type ) {
+        if (age) {
+          players = await Member.find()
+          .populate('membertype')
+          .where('_clubId', clubId)
+          .where('ageCategory', age);
+        }
+        if (type) {
+          players = await Member.find()
+          .populate('membertype')
+          .where('_clubId', clubId)
+          .where('_memberTypeId', type);
+        }
+        if (age && type) {
+          players = await Member.find()
+          .populate('membertype')
+          .where('_clubId', clubId)
+          .where('_memberTypeId', type)
+          .where('ageCategory', age);
+        }
+      } else{
+        players = await Member.find()
+        .populate('membertype')
+        .where('_clubId', clubId)
+      }
       return res.status(200).json(players);
     } catch (err) {
       next(err);
     }
   }
-  
 
   destroy = async (req: Request, res: Response, next: NextFunction) => {};
 
@@ -99,6 +122,7 @@ class MemberController {
       facebookProvider: req.body.facebookProvider,
       _clubId: req.body._clubId,
       _memberTypeId: req.body._memberTypeId,
+      _modifiedAt: new Date().getTime()
     }
 
     const member = await Member.findOneAndUpdate({_id: id}, memberUpdate, {

@@ -55,6 +55,7 @@ class ApiRouter {
     this.router.get('/clubs/:id', this.clubController.show);
     this.router.post('/auth/signin/club', this.clubController.signInLocal);
     this.router.post('/auth/signup/club', this.clubController.signupLocal);
+    this.router.put('/clubs/:id', this.clubController.update);
     /*
      * Formation routes
      */
@@ -62,7 +63,7 @@ class ApiRouter {
     this.router.get('/formations/:clubId&:age', this.formationController.formationsByClubAndAge);
     this.router.post('/formations/create', this.formationController.create);
     this.router.get('/formations/:id', this.formationController.show);
-    this.router.post('/formations/delete', this.formationController.destroy);
+    this.router.delete('/formations/delete', this.formationController.destroy);
     this.router.put('/formations/:id', this.formationController.update);
     /*
      * JoinRequest routes
@@ -70,15 +71,15 @@ class ApiRouter {
     this.router.get('/joinRequests', this.joinRequestController.index);
     this.router.post('/joinRequests/create', this.joinRequestController.create);
     this.router.get('/joinRequests/:id', this.joinRequestController.show);
+    this.router.get('/joinRequestsForClub/:id', this.joinRequestController.joinRequestsForClub);
     this.router.delete('/destroyJoinRequestsOfMember/:id', this.joinRequestController.deleteJoinRequestOfMember);
     this.router.delete('/joinRequests/:id', this.joinRequestController.destroy);
-
     /*
      * Member routes
      */
     this.router.get('/members', this.memberController.index);
     this.router.get('/membersfromclub/:clubId&:age', this.memberController.showMembersFromClub);
-    this.router.get('/playersfromclub/:clubId&:age', this.memberController.showPlayersFromClub);
+    this.router.get('/allmembersfromclub/:clubId', this.memberController.showAllMembersFromClub);
     this.router.get('/members/:id', this.memberController.show);
     this.router.get('/emptymember', this.memberController.emptyMember);
     this.router.post('/auth/signin/member', this.memberController.signInLocal);
@@ -90,7 +91,6 @@ class ApiRouter {
     this.router.get('/memberTypes', this.memberTypeController.index);
     this.router.get('/memberTypes/:id', this.memberTypeController.show);
     this.router.get('/memberTypesByName/:name', this.memberTypeController.memberTypesByName);
-
     /*
      * Statistic routes
      */

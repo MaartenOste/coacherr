@@ -3,16 +3,22 @@ import { useApi } from '../../services';
 
 import './Header.scss';
 
-const Header = ({children}) => {
+const Header = ({clubHeader}) => {
   const {findClub, findMember } = useApi();
   const [club, setClub] = useState();
 
 	const initFetch = useCallback(
 		() => {
 		  const fetchdata = async () => {
-			const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
-			const tempclub = await findClub(member._clubId);
-			setClub(tempclub);
+			  if (clubHeader) {
+				const tempclub = await findClub(JSON.parse(localStorage.getItem('mern:authUser')).id);
+				setClub(tempclub);
+			  } else {
+				const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
+				const tempclub = await findClub(member._clubId);
+				setClub(tempclub);
+			  }
+
 		  }
 		  fetchdata();
 		},

@@ -52,7 +52,8 @@ class FormationController {
       _coachId: req.body._coachId,
       _playersIds: req.body._playersIds,
       _clubId: req.body._clubId,
-      date: req.body.date
+      date: req.body.date,
+      _modifiedAt: new Date().getTime()
     }
 
     const formation = await Formation.findOneAndUpdate({_id: id}, formationUpdate, {

@@ -90,20 +90,26 @@ clubSchema.pre<IClub>('validate', function(next) {
   return next();
 });
 
-clubSchema.methods.comparePassword = function(
-  candidatePassword: String,
-  cb: Function,
-) {
-  const user = this;
-  bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
-    if (err) return cb(err, null);
-    return cb(null, isMatch);
-  });
-};
+clubSchema.virtual('id').get(function(this: IClub) {
+  return this._id;
+});
+
+clubSchema.virtual('members', {
+  ref: 'Member',
+  localField: '_membersIds',
+  foreignField: '_id',
+  justOne: false,
+});
+
+clubSchema.virtual('joinRequests', {
+  ref: 'JoinRequest',
+  localField: '_joinRequestsIds',
+  foreignField: '_id',
+  justOne: false,
+});
 
 clubSchema.pre('save', function(next) {
   const club: IClub = this as IClub;
-
   if (!club.isModified('localProvider.password')) return next();
 
   try {
@@ -122,23 +128,16 @@ clubSchema.pre('save', function(next) {
   }
 });
 
-clubSchema.virtual('id').get(function(this: IClub) {
-  return this._id;
-});
-
-clubSchema.virtual('members', {
-  ref: 'Member',
-  localField: '_membersIds',
-  foreignField: '_id',
-  justOne: false,
-});
-
-clubSchema.virtual('joinRequests', {
-  ref: 'JoinRequest',
-  localField: '_joinRequestsIds',
-  foreignField: '_id',
-  justOne: false,
-});
+clubSchema.methods.comparePassword = function(
+  candidatePassword: String,
+  cb: Function,
+) {
+  const club = this;
+  bcrypt.compare(candidatePassword, club.localProvider.password, (err, isMatch) => {
+    if (err) return cb(err, null);
+    return cb(null, isMatch);
+  });
+};
 
 clubSchema.plugin(mongoosePaginate);
 const Club = mongoose.model<IClub, IClubModel>('Club', clubSchema);

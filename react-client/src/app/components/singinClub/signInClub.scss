@@ -1,0 +1,28 @@
+@import '../../_sass/abstracts/variables';
+
+.singInClubPage{
+
+	.contentconainer{
+		padding: 0 10vw;
+		margin: 5vh 0 2vh 0;
+		min-height: 85vh;
+		.backbutton{
+			color: $color-blue-light;
+		}
+		input{
+			border: 1px solid $color-blue-light;
+			color: $color-blue-light!important;
+		}
+		input::placeholder{
+			color: $color-blue-light;
+		}
+	
+		.basicbutton{
+			background-color: $color-blue-light;
+		}
+	}
+	footer{
+		background-color: $color-blue-light;
+	}
+
+}
