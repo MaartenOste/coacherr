@@ -20,7 +20,7 @@ const AwaitingRequestPage = ({children}) => {
 		  }
 		  fetchdata();
 		},
-		[getFormationsFromClubAndAge],
+		[findMember, getFormationsFromClubAndAge],
 	)
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import { default as React, useState} from 'react';
+import { default as React } from 'react';
 
 const FormationInfo = ({club,change, edit, structure, score}) => {
 
@@ -28,7 +28,7 @@ const FormationInfo = ({club,change, edit, structure, score}) => {
 				Statistics
 			</div>
 			<div className="formationInfoDetails">
-				<div>{club.name}</div> {edit? <div className='scoreInputContainer'><input type="text" className="scoreInput" id="scorehome" maxLength='2' defaultValue={score?score.split('-')[0]:''}></input> - <input type="text" className="scoreInput" id="scoreaway" maxLength='2' defaultValue={score?score.split('-')[1]:''}></input> </div>: score} <div>opponents</div>
+				<div>{club.name}</div> {edit? <div className='scoreInputContainer'><input type="text" className="scoreInput" onClick={ev => {document.getElementById(ev.target.id).select()}} id="scorehome" maxLength='2' defaultValue={score?score.split('-')[0]:''}></input> - <input type="text" className="scoreInput" onClick={ev => {document.getElementById(ev.target.id).select()}} id="scoreaway" maxLength='2' defaultValue={score?score.split('-')[1]:''}></input> </div>: score} <div>opponents</div>
 			</div>
 		</div>
   );

@@ -1,15 +1,14 @@
-import { default as React, Fragment, useState, useEffect} from 'react';
+import { default as React, Fragment } from 'react';
 import { useHistory } from 'react-router';
 import * as Routes from '../routes';
 import { Link } from 'react-router-dom';
 import { useApi, useAuth } from '../services';
-import { BackButton, Footer, InputField, Title} from '../components';
+import { BackButton, Footer, InputField } from '../components';
 import '../components/singinClub/signInClub.scss'
 
 const SignInClubPage = ({children}) => {
   const history = useHistory();
   const { signInLocal } = useAuth();
-  const [currentUser, setCurrentUser] = useState();
   const { findClub } = useApi();
 
 
@@ -21,10 +20,7 @@ const SignInClubPage = ({children}) => {
     };
     try {
       const user = await signInLocal(data.email, data.password, 'club');
-      setCurrentUser(user);
-      console.log(JSON.parse(localStorage.getItem('mern:authUser')).id);
-      
-      const club = await findClub(JSON.parse(localStorage.getItem('mern:authUser')).id);
+      const club = await findClub(user.id);
 
       if(club){
         history.push(Routes.BACKOFFICE_LANDING);

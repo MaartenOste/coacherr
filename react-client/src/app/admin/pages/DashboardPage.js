@@ -192,7 +192,7 @@ const DashBoardPage = ({ children }) => {
             {members && members.map(member => {
               return <div className="cardcontainer" key={member._id} >
                 <div className="confirm" id={`confirm${member._id}`} style={{display: 'none'}}>Are you sure you want to remove this member from your club?<div className="choise"><div className="yes" onClick={ev => handleDeleteMember(member._id)}>YES</div><div className="no" onClick={ev => undoConfirm(member._id)}>NO</div></div></div>
-                <div className="cardtext" id={member._id}><div className='leftcomponent' ><div>{member.firstname} {member.lastname}</div><div>{member.membertype[0].name}</div><div>{member.ageCategory}</div></div><div className='rightcomponent'><div className="fas fa-pencil-alt" onClick={ev => editMember(member._id)}></div><div className="fas fa-trash" onClick={ev => handleConfirmMember(member._id)}></div></div></div>
+                <div className="cardtext" id={member._id}><div className='leftcomponent' ><div>{member.firstname} {member.lastname}</div><div>{member.membertype[0]?member.membertype[0].name:''}</div><div>{member.ageCategory}</div></div><div className='rightcomponent'><div className="fas fa-pencil-alt" onClick={ev => editMember(member._id)}></div><div className="fas fa-trash" onClick={ev => handleConfirmMember(member._id)}></div></div></div>
               </div>
             })}
           </div>

@@ -45,7 +45,7 @@ const clubSchema: Schema = new Schema(
     },
     clubNumber: {
       type: Number,
-      required: true,
+      required: false,
       unique: true,
       max: 99999,
     },

@@ -31,7 +31,6 @@ useEffect(() => {
 		const clubUpdate = club;
 		clubUpdate.name = document.getElementById('Name').value;
 		clubUpdate.phoneNumber = document.getElementById('Phone number').value;
-		clubUpdate.clubNumber = document.getElementById('ClubNumber').value;
 
 		await updateClub(clubUpdate);
 		history.push(Routes.BACKOFFICE_DASHBOARD);
@@ -62,7 +61,6 @@ useEffect(() => {
 		</div>
 		<InputField key="Name" label="Name" value={club?club.name:''}/>
 		<InputField key="Phone number" label="Phone number" value={club?club.phoneNumber:''}/>
-		<InputField key="ClubNumber" label="ClubNumber" value={club?club.clubNumber:''}/>
 		<div className="basicbutton" onClick={ev => saveSettings()}>save settings</div>
       </main>
       <Footer clubFooter={true}/>

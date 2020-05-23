@@ -10,7 +10,6 @@ const FormationDetailPage = ({children}) => {
 	const { findMember, getFormationById, getMembersFromClub, getStatisticsFromFormation, updateFormation, updateStatistic } = useApi();
 	const [member, setMember] = useState();
 	const [ formation, setFormation] = useState();
-	const [ strucure, setStructure] = useState();
 	const [ statistics, setStatistics] = useState();
 	const [ allMembersFromClub, setAllMembersFromClub] = useState();
 	const [updatePlayers, setUpdatePlayers] = useState(true);
@@ -26,7 +25,6 @@ const FormationDetailPage = ({children}) => {
 		  const stats = await getStatisticsFromFormation(id);
 		  const allMembers = await getMembersFromClub(tempmember._clubId, tempmember.ageCategory);
 		  setFormation(data);
-		  setStructure(data.strucure);
 		  setStatistics(stats);
 		  setAllMembersFromClub(allMembers);
 		}

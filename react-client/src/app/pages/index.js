@@ -7,6 +7,7 @@ import { default as NewFormation } from './NewFormation';
 import { default as NotFoundPage } from './NotFoundPage';
 import { default as PayerInfoPage } from './PlayerInfoPage';
 import { default as SignInMemberPage } from './SignInMemberPage';
+import { default as SignUpClubPage } from './SignUpClubPage';
 import { default as SignUpMemberPage } from './SignUpMemberPage';
 import { default as SignInClubPage } from './SignInClubPage';
 
@@ -20,6 +21,7 @@ export {
   NotFoundPage,
   PayerInfoPage,
   SignInMemberPage,
+  SignUpClubPage,
   SignUpMemberPage,
   SignInClubPage,
 }

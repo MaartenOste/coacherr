@@ -28,18 +28,25 @@ useEffect(() => {
 }, [initFetch]);
 
 	const saveSettings = async () => {
-		const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
-		member.firstname = document.getElementById('First Name').value;
-		member.lastname = document.getElementById('Last Name').value;
-		member.phoneNumber = document.getElementById('Phone number').value;
+		const tempMember = member;
+		tempMember.firstname = document.getElementById('First Name').value;
+		tempMember.lastname = document.getElementById('Last Name').value;
+		tempMember.phoneNumber = document.getElementById('Phone number').value;
 		if (member && member.membertype[0].name === "Player") {
-			member.extraInfo = {
+			tempMember.extraInfo = {
 				"position": document.getElementById('prefpos').value,
 				"foot": member.extraInfo.foot
 			  }
 		}
-		await updateMember(member);
+		await updateMember(tempMember);
 		history.push(Routes.FORMATIONS);
+	}
+
+	const handleLeaveClub = async () => {
+		const tempMember = member;
+		tempMember._clubId = null;
+		await updateMember(tempMember);
+		history.push(Routes.JOIN_CLUB);
 	}
 
   return (
@@ -54,6 +61,7 @@ useEffect(() => {
 		<InputField key="Last Name" label="Last Name" value={member?member.lastname:''}/>
 		<InputField key="Phone number" label="Phone number" value={member?member.phoneNumber:''}/>
 		{member && member.membertype[0].name === "Player"?<PreferredPosition value={member?member.extraInfo.position:''}/>:''}
+		<div className="basicbutton" onClick={ev => handleLeaveClub()}>leave club</div>
 		<div className="basicbutton" onClick={ev => saveSettings()}>save settings</div>
       </main>
       <Footer/>

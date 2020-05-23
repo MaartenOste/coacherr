@@ -18,11 +18,10 @@ const Header = ({clubHeader}) => {
 				const tempclub = await findClub(member._clubId);
 				setClub(tempclub);
 			  }
-
 		  }
 		  fetchdata();
 		},
-	[findClub],
+	[findClub, findMember, clubHeader],
 	);
 
 	useEffect(() => {

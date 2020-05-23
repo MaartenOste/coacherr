@@ -9,7 +9,7 @@
 		text-align: center;
 		vertical-align: middle;
 		line-height: 13vh; 
-		font-size: 7vw;
+		font-size: 1.7rem;
 	}
 }
 
@@ -18,12 +18,12 @@
 	font-weight: bolder;
 
 	.welcome{
-		font-size: 12vw;
+		font-size: 3rem;
 	}
 	.logo{
 		text-align: right;
 		color: $color-green-light;
-		font-size: 12vw;
+		font-size: 3rem;
 		line-height: 40px;
 		-webkit-text-stroke: 1px $color-blue-dark;
 		margin-bottom: 3vh;
@@ -31,6 +31,6 @@
 	}
 	.catchphrase{
 		font-weight: normal;
-		font-size: 8vw;
+		font-size: 1.8rem;
 	}
 }

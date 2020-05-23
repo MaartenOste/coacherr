@@ -8,7 +8,7 @@ const Title = ({}) => {
 			<div className="welcome">Welcome to</div> 
 			<div className="logo">coacherr</div>
 			<div className="catchphrase">
-				THE app to guide <br/>your team to victory!
+				THE app to guide your team to victory!
 			</div>
 		</div>
 	);

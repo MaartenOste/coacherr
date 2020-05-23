@@ -1,4 +1,4 @@
-import { default as React, Fragment, useState, useEffect} from 'react';
+import { default as React, Fragment } from 'react';
 import { useHistory } from 'react-router';
 import * as Routes from '../routes';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,6 @@ import { useAuth } from '../services';
 const SignInMemberPage = ({children}) => {
   const history = useHistory();
   const { signInLocal } = useAuth();
-  const [currentUser, setCurrentUser] = useState();
   const { findMember } = useApi();
 
 	const initSignInMember = async (ev) => {
@@ -21,8 +20,7 @@ const SignInMemberPage = ({children}) => {
     };
     try {
       const user = await signInLocal(data.email, data.password, 'member');
-      setCurrentUser(user);
-      const member = await findMember(JSON.parse(localStorage.getItem('mern:authUser')).id);
+      const member = await findMember(user.id);
       if (!member.extraInfo && member.membertype[0].name === 'Player') {
         history.push(Routes.PLAYER_INFO);
       } else if (!member._clubId){

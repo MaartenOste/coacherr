@@ -1,3 +1,4 @@
+@import '../_sass/abstracts/variables';
 /*
 * Variables
 */
@@ -17,7 +18,7 @@
 * 404 page
 */
 .page--404 {
-background-image: linear-gradient(black, black), url(../_static/images/404.jpg);
+background-image: linear-gradient(black, black), url(../_static/images/club.jfif);
 background-repeat: no-repeat;
 background-position: center center;
 background-size: cover;
@@ -28,9 +29,9 @@ background-blend-mode: saturation;
 transition: all 268ms ease-in-out 0s;
 }
 
-.page--404 .main {
+.page--404 {
 height: 100vh;
-
+padding: 0 10vw;
 display: flex;
 flex-direction: column;
 flex-wrap: nowrap;
@@ -40,7 +41,7 @@ align-content: center;
 justify-items: center;
 }
 
-.page--404 .main>div {
+.page--404>div {
 display: flex;
 flex-direction: column;
 flex-wrap: nowrap;
@@ -48,17 +49,16 @@ align-items: center;
 justify-content: center;
 }
 
-.page--404 .main .title {
+.page--404 .title {
 margin: 0 auto var(--spacer);
 padding: var(--spacer);
 font-size: 5.6rem;
 text-align: center;
-
-background-color: var(--color-purple);
+background-color: $color-green-light;
 display: inline;
 }
 
-.page--404 .main .sub-title {
+.page--404 .sub-title {
 margin: 0;
 padding: var(--spacer);
 font-size: 2rem;
@@ -66,21 +66,22 @@ text-align: center;
 text-transform: uppercase;
 font-weight: 900;
 
-background-color: var(--color-red);
+background-color: $color-green-dark;
 }
 
-.page--404 .main .description {
-margin: 0;
+.page--404 .description {
+margin-top: 2vh;
 padding: var(--spacer);
 font-size: 1.4rem;
 text-align: center;
 text-transform: uppercase;
 font-weight: 900;
+background-color: $color-green-light;
 
 color: var(--color-white);
 }
 
-.page--404 .main .description a {
+.page--404 .description a {
 margin: 0;
 padding: calc(var(--spacer) / 4);
 font-size: 1.4rem;
@@ -88,12 +89,12 @@ text-align: center;
 text-transform: uppercase;
 font-weight: 900;
 
-background-color: var(--color-purple);
+background-color: $color-green-light;
 color: var(--color-red);
 text-decoration: none;
 }
 
-.page--404 .main .description>a:hover {
+.page--404 .description>a:hover {
 background-color: var(--color-red);
 color: var(--color-purple);
 }

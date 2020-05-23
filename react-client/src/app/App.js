@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Redirect, Switch, Route} from 'react-router-dom';
 import { AdminPage } from './admin/pages'
-import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, MemberSettingsPage, NewFormation, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpMemberPage} from './pages';
+import { AwaitingRequestPage, FormationsPage, FormationDetailPage, HomePage, MemberSettingsPage, NewFormation, NotFoundPage,PayerInfoPage, SignInClubPage, SignInMemberPage, SignUpClubPage, SignUpMemberPage} from './pages';
 import { ErrorLayout } from './layouts';
 import { AuthRouteWithLayout, RouteWithLayout } from './utilities';
 import * as Routes from './routes';
@@ -22,6 +22,7 @@ function App() {
               <RouteWithLayout exact path={Routes.AUTH_SIGN_IN_MEMBER} component={SignInMemberPage}/>
               <RouteWithLayout exact path={Routes.AUTH_SIGN_IN_CLUB} component={SignInClubPage}/>
               <RouteWithLayout exact path={Routes.AUTH_SIGNUP_MEMBER} component={SignUpMemberPage}/>
+              <RouteWithLayout exact path={Routes.AUTH_SIGNUP_CLUB} component={SignUpClubPage}/>
               <AuthRouteWithLayout exact path={Routes.PLAYER_INFO} component={PayerInfoPage}/>
               <AuthRouteWithLayout exact path={Routes.JOIN_CLUB} component={JoinClubPage}/>
               <AuthRouteWithLayout exact path={Routes.AWAITING_REQUEST} component={AwaitingRequestPage}/>

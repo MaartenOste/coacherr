@@ -95,13 +95,44 @@ const AuthProvider = ({ children }) => {
     return member;
   }
 
+  const signupClub = async (email, password, name, clubNumber, phoneNumber) => {
+    let url = `${apiConfig.baseURL}/auth/signup/club`;
+
+    const body = {
+      "email": email,
+      "password": password,
+      "name": name,
+      "clubNumber": clubNumber,
+      "phoneNumber": phoneNumber,
+    };
+
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+
+    const response = await fetch(`${url}`, options);
+    const club = await response.json();
+
+    localStorage.setItem('mern:authUser', JSON.stringify(club));
+    setCurrentUser(club);
+    return club;
+  }
+
   const logout = async () => {
     localStorage.setItem('mern:authUser', null);
     return true;
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, signInLocal, signupMember, logout }}>
+    <AuthContext.Provider value={{ currentUser, signInLocal, signupMember, signupClub, logout }}>
       {children}
     </AuthContext.Provider>
   )

@@ -64,6 +64,8 @@ class FormationController {
     if (!formation) {
       throw new NotFoundError();
     }
+    console.log(formation);
+    
     return res.status(200).json(formation);
   } catch (err) {
     next(err);
@@ -80,12 +82,11 @@ class FormationController {
         _clubId: req.body._clubId,
         date: req.body.date
       });
-      console.log(newFormtation);
+
+      const formation: IFormation = await newFormtation.save();
+      console.log(formation);
       
-      const joinRequest: IFormation = await newFormtation.save();
-      console.log(joinRequest);
-      
-      return res.status(200).json(joinRequest);
+      return res.status(200).json(formation);
     } catch (err) {
       next(err);
     }

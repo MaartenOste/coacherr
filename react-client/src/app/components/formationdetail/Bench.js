@@ -1,4 +1,4 @@
-import { default as React, Fragment, useCallback, useEffect,useState} from 'react';
+import { default as React, useEffect,useState} from 'react';
 
 const Bench = ({amount, arrayOfPlayers, update}) => {
 	const [row, setRow] = useState([]);

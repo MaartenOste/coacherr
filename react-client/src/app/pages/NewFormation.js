@@ -7,11 +7,9 @@ import * as Routes from '../routes';
 const NewFormation = ({children}) => {
 	const { id } = useParams();
 	const history = useHistory();
-	const { findMember, getFormationById, getMembersFromClub, getStatisticsFromFormation, getEmptyMember, createFormation, createStatistic } = useApi();
+	const { findMember, getFormationById, getMembersFromClub,  getEmptyMember, createFormation, createStatistic } = useApi();
 	const [member, setMember] = useState();
 	const [ formation, setFormation] = useState([]);
-	const [ strucure, setStructure] = useState();
-	const [ statistics, setStatistics] = useState();
 	const [ allMembersFromClub, setAllMembersFromClub] = useState();
 	const [updatePlayers, setUpdatePlayers] = useState(true);
 
@@ -22,13 +20,12 @@ const NewFormation = ({children}) => {
 		  setMember(tempmember);
 		  sessionStorage.setItem('struct', '4-3-3');
 		  const allMembers = await getMembersFromClub(tempmember._clubId, tempmember.ageCategory);
-		  setStructure('4-3-3');
 		  setAllMembersFromClub(allMembers);
 		}
 		fetchFormation();
 		setUpdatePlayers(!updatePlayers);
 	  },
-	  [getFormationById, getStatisticsFromFormation, id],
+	  [getFormationById, id],
 	)
   
 
@@ -74,10 +71,11 @@ const NewFormation = ({children}) => {
 			_clubId: member._clubId,
 			date: date
 		}
-		const formation = await createFormation(formationCreate);
+		const tempFormation = await createFormation(formationCreate);
+		setFormation(tempFormation);
 		const statisticCreate = {
 			score: `${document.getElementById('scorehome').value}-${document.getElementById('scoreaway').value}`,
-			_formationId: formation._id
+			_formationId: tempFormation._id
 		}
 		await createStatistic(statisticCreate)
 		history.push(Routes.FORMATIONS);

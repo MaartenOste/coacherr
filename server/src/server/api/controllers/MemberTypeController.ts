@@ -28,8 +28,8 @@ class MemberTypeController {
   memberTypesByName= async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { name } = req.params;
-
       const memberType = await MemberType.find().where('name', name).exec();
+
       return res.status(200).json(memberType);
     } catch (err) {
       next(err);

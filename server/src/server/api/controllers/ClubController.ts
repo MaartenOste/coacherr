@@ -70,18 +70,25 @@ class ClubController {
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const { email, name, clubnumber, phoneNumber, password } = req.body;
+    const {
+      email,
+      password,
+      name,
+      phoneNumber,
+    } = req.body;
 
-    let founMember = await Club.findOne({ email: email });
-    if (founMember) {
+    let foundClub = await Club.findOne({ email: email });
+    if (foundClub) {
       return res.status(403).json({ error: 'Email is already in use' });
     }
 
     const newClub: IClub = new Club({
-      email,
-      name,
-      clubnumber,
-      phoneNumber,
+      email: email,
+      localProvider:{
+        password: password,
+      },
+      name: name,
+      phoneNumber: phoneNumber,
     });
 
     const club: IClub = await newClub.save();
@@ -89,10 +96,10 @@ class ClubController {
     const token = this.authService.createToken(club);
     return res.status(200).json({
       email: club.email,
-      name: club.name,
-      clubnumber: club.clubNumber,
-      phoneNumber: club.phoneNumber,
+      id: club._id,
       token: `${token}`,
+      strategy: 'local',
+      type: 'Club',
     });
   };
 
@@ -105,8 +112,6 @@ class ClubController {
       'local',
       { session: this.config.auth.jwt.session },
       (err, user, info) => {
-        console.log(user);
-        
         if (err) {
           return next(err);
         }
