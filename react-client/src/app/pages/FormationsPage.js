@@ -4,7 +4,7 @@ import { useApi } from '../services';
 import * as Routes from '../routes';
 import { useHistory } from 'react-router';
 
-const AwaitingRequestPage = ({children}) => {
+const FormationsPage = ({children}) => {
   const history = useHistory();
   const [member, setMember] = useState();
   const [formations, setFormations] = useState();
@@ -42,11 +42,15 @@ const AwaitingRequestPage = ({children}) => {
       <main>
 		<Navbar backbutton={false}/>
 		<div className="formationdetailtitle">
-		<div className="pagetitle"><div>Formations {formations && formations[0]?formations[0].ageCategory:''}</div> {member && member.membertype[0].name==='Coach'?<div onClick={ev => handleNewFormation()}><i className="fas fa-plus-circle" ></i></div>:''}</div>
-		</div>		
+			<div className="pagetitle">
+				<div>Formations {formations && formations[0]?formations[0].ageCategory:''}</div>
+				{member && member.membertype[0].name==='Coach'?<div onClick={ev => handleNewFormation()}><i className="fas fa-plus-circle" ></i></div>:''}
+			</div>
+		</div>
 		{formations && formations.map(formation => {
 			return <Card member={true} edit={member?member.membertype[0].name==='Coach': false} data={formation} key={formation._id} id={formation._id}/>
 		})}
+
         <div className="allformations">These are all formations for your team.</div>
       </main>
       <Footer/>
@@ -54,4 +58,4 @@ const AwaitingRequestPage = ({children}) => {
   );
 };
 
-export default AwaitingRequestPage;
+export default FormationsPage;

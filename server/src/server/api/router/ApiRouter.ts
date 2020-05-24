@@ -99,23 +99,6 @@ class ApiRouter {
     this.router.post('/statistics/create', this.statisticController.create);
     this.router.get('/statistics/:id', this.statisticController.show);
     this.router.put('/statistics/:id', this.statisticController.update);
-    /*
-    this.router.get('/users', this.userController.index);
-    this.router.get('/users/:id', this.userController.show);
-    this.router.delete('/users/:id', this.userController.destroy);
-    this.router.post('/auth/signin/', this.userController.signInLocal);
-    this.router.post('/auth/signup/', this.userController.signupLocal);*/
-
-    /*
-     * Post routes
-     */
-    /*this.router.get('/posts', this.postController.index);
-    this.router.get('/posts/create', this.postController.create); // Must be before the route /posts/:id
-    this.router.get('/posts/:id', this.postController.show);
-    this.router.post('/posts', this.postController.store);
-    this.router.get('/posts/:id/edit', this.postController.edit);
-    this.router.put('/posts/:id', this.postController.update);
-    this.router.delete('/posts/:id', this.postController.destroy);*/
   }
 }
 

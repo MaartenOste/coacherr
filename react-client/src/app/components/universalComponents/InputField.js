@@ -11,7 +11,8 @@ const InputField = ({label, type, value}) => {
 	return (
 		<div className="InputField">
 			<label htmlFor={label}>{label}:</label>
-  			<input type={type? type: "text"} onClick={ev => selectAll()} id={label} name={label} placeholder={label} defaultValue={value?value:''}/>
+			  <input type={type? type: "text"} onClick={ev => selectAll()} id={label} 
+			  name={label} placeholder={label} defaultValue={value?value:''}/>
 		</div>
   );
 };

@@ -120,7 +120,7 @@ class MongoDBDatabase {
       ),
     );
 
-    /*for (let i = 0; i < 30; i++) {
+    /*for (let i = 0; i < 5; i++) {
       promises.push(
         this.clubCreate(
           `FC ${faker.address.city()}`,
