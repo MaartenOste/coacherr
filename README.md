@@ -10,7 +10,7 @@ The official briefing of this project was not specific:
 Make a MERN-stack application. We could chose out own topic.
 My idea was to make an app for football coaches. 
 
-# Resultaat
+# Result
 The application is used by football coaches. 
 A coach can make formations and share them with his team. 
 This makes it possible to give a detailled overview on what it is he expects.
